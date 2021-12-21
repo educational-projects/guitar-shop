@@ -8,7 +8,7 @@ type CardProps = {
 const RATING_LENGTH = 5;
 
 function Card({guitar}: CardProps): JSX.Element {
-  const {previewImg, name, price, rating} = guitar;
+  const {previewImg, name, price, rating, comments} = guitar;
 
   return (
     <div className="product-card">
@@ -26,7 +26,7 @@ function Card({guitar}: CardProps): JSX.Element {
               <use xlinkHref="#icon-star"></use>
             </svg>
           ))}
-          <span className="rate__count">9</span>
+          <span className="rate__count">{comments.length}</span>
           <span className="rate__message"></span>
         </div>
         <p className="product-card__title">{name}</p>
