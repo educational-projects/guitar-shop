@@ -7,4 +7,9 @@ export type ProductsState = {
   guitars: Guitars,
 }
 
+export type AppState = {
+  sortType: null | string,
+  sortOrder: null | string,
+}
+
 export type State = RootState

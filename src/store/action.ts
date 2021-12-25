@@ -11,6 +11,15 @@ export const changeSortType = createAction(
   }),
 );
 
+export const changeSortOrder = createAction(
+  ActionType.ChangeSortOrder,
+  (sortOrder: string) => ({
+    payload: {
+      sortOrder,
+    },
+  }),
+);
+
 export const loadGuitarsRequest = createAction(ActionType.LoadGuitarsRequest);
 
 export const loadGuitarsSuccess = createAction(

@@ -1,15 +1,21 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeSortType } from '../action';
+import { AppState } from '../../types/state';
+import { changeSortOrder, changeSortType } from '../action';
 
-const initialState = {
-  currentSortType : 'test',
+const initialState: AppState = {
+  sortType : null,
+  sortOrder: null,
 };
 
 const app = createReducer(initialState, (builder) => {
   builder
     .addCase(changeSortType, (state, action) => {
       const {sortType} = action.payload;
-      state.currentSortType = sortType;
+      state.sortType = sortType;
+    })
+    .addCase(changeSortOrder, (state, action) => {
+      const {sortOrder} = action.payload;
+      state.sortOrder = sortOrder;
     });
 });
 

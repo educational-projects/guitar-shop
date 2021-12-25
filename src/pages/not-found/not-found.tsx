@@ -1,11 +1,21 @@
+import { Link } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
+import styles from './not-found.module.css';
 
 function NotFound(): JSX.Element {
   return (
-    <div className="wrapper">
+    <div className={styles.container}>
       <Header/>
-      <p>404. Такой страницы не существует</p>
+      <div className={styles.contentWrapper}>
+        <b className={styles.title}>404. Данной страницы не существует</b>
+        <Link
+          to={'/'}
+          className={styles.link}
+        >
+           Вернуться на главную
+        </Link>
+      </div>
       <Footer/>
     </div>
   );

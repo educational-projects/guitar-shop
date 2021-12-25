@@ -1,0 +1,33 @@
+.container {
+  width: 100%;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: min-content 1fr min-content;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-image: url(../../../public/img/content/fallback-bg.jpg);
+  min-height: 800px;
+}
+
+.title {
+  color: white;
+  margin-top: 50px;
+}
+
+.text {
+  color: white;
+}
+
+.button {
+  color: white;
+  min-height: 52px;
+  background-color: violet;
+  border-radius: 50px;
+  border-color: violet;
+  cursor: pointer;
+  margin-top: 50px;
+}
