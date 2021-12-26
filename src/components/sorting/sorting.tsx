@@ -45,10 +45,10 @@ function Sorting(): JSX.Element {
       <div className="catalog-sort__order">
         {Object.entries(SortOrder).map(([direction, {type, label}]) => {
           const buttonClass = cn(`catalog-sort__order-button ${`catalog-sort__order-button--${direction.toLowerCase()}`}`, {
-            'catalog-sort__order-button--active' : sortOrder === label,
+            'catalog-sort__order-button--active' : sortOrder === type,
           });
 
-          const tabIndex = sortOrder === label ? -1 : undefined;
+          const tabIndex = sortOrder === type ? -1 : undefined;
 
           return (
             <button
@@ -57,7 +57,7 @@ function Sorting(): JSX.Element {
               aria-label={label}
               tabIndex={tabIndex}
               onClick={() => {
-                dispatch(changeSortOrder(label));
+                dispatch(changeSortOrder(type));
 
                 if (!sortType) {
                   dispatch(changeSortType('price'));
