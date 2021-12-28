@@ -28,3 +28,12 @@ export const SortOrder = {
     type: 'desc',
   },
 } as const;
+
+export const PriceType = {
+  Min: {
+    label: 'Минимальная цена',
+  },
+  Max: {
+    label: 'Максимальная цена',
+  },
+} as const;
