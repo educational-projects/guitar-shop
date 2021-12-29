@@ -21,7 +21,7 @@ export const changeSortOrder = createAction(
 );
 
 export const changeMinPrice = createAction(
-  ActionType.ChangeSortOrder,
+  ActionType.ChangeMinPrice,
   (minPrice: string) => ({
     payload: {
       minPrice,
@@ -29,7 +29,7 @@ export const changeMinPrice = createAction(
   }),
 );
 export const changeMaxPrice = createAction(
-  ActionType.ChangeSortOrder,
+  ActionType.ChangeMaxPrice,
   (maxPrice: string) => ({
     payload: {
       maxPrice,
