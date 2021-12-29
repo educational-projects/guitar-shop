@@ -20,6 +20,23 @@ export const changeSortOrder = createAction(
   }),
 );
 
+export const changeMinPrice = createAction(
+  ActionType.ChangeSortOrder,
+  (minPrice: string) => ({
+    payload: {
+      minPrice,
+    },
+  }),
+);
+export const changeMaxPrice = createAction(
+  ActionType.ChangeSortOrder,
+  (maxPrice: string) => ({
+    payload: {
+      maxPrice,
+    },
+  }),
+);
+
 export const loadGuitarsRequest = createAction(ActionType.LoadGuitarsRequest);
 
 export const loadGuitarsSuccess = createAction(

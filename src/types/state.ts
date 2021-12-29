@@ -10,6 +10,8 @@ export type ProductsState = {
 export type AppState = {
   sortType: null | string,
   sortOrder: null | string,
+  minPrice: string,
+  maxPrice: string,
 }
 
 export type State = RootState

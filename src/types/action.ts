@@ -6,6 +6,8 @@ import { State } from './state';
 export enum ActionType {
   ChangeSortType = 'app/changeSortType',
   ChangeSortOrder = 'app/changeSortOrder',
+  ChangeMinPrice = 'user/changeMinPrice',
+  ChangeMaxPrice = 'user/changeMaxPrice',
   LoadGuitarsRequest = 'data/loadGuitarsRequest',
   LoadGuitarsSuccess = 'data/loadGuitarsSuccess',
   LoadGuitarsError = 'data/loadGuitarsError',
