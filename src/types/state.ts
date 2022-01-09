@@ -7,11 +7,11 @@ export type ProductsState = {
   guitars: Guitars,
 }
 
-export type AppState = {
+export type FilterState = {
   sortType: null | string,
   sortOrder: null | string,
-  minPrice: string,
-  maxPrice: string,
+  minPrice:  null |string,
+  maxPrice: null | string,
 }
 
 export type State = RootState

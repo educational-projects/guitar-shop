@@ -1,6 +1,7 @@
 import { createAction } from '@reduxjs/toolkit';
 import { ActionType } from '../types/action';
 import { Guitars } from '../types/guitar';
+import { FilterState } from '../types/state';
 
 export const changeSortType = createAction(
   ActionType.ChangeSortType,
@@ -20,19 +21,21 @@ export const changeSortOrder = createAction(
   }),
 );
 
-export const changeMinPrice = createAction(
-  ActionType.ChangeMinPrice,
-  (minPrice: string) => ({
+export const changePrice = createAction(
+  ActionType.ChangePrice,
+  (name: string, price: string | null) => ({
     payload: {
-      minPrice,
+      key: name,
+      price,
     },
   }),
 );
-export const changeMaxPrice = createAction(
-  ActionType.ChangeMaxPrice,
-  (maxPrice: string) => ({
+
+export const setFilter = createAction(
+  ActionType.SetFilter,
+  (actualFilter: FilterState) => ({
     payload: {
-      maxPrice,
+      actualFilter,
     },
   }),
 );

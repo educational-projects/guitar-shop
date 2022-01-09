@@ -1,14 +1,14 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { app } from './app/app';
+import { filter } from './filter/filter';
 import { products } from './products/products';
 
 export enum NameSpace {
-  App = 'APP',
+  Filter = 'FILTER',
   Products = 'PRODUCTS',
 }
 
 export const rootReducer = combineReducers({
-  [NameSpace.App]: app,
+  [NameSpace.Filter]: filter,
   [NameSpace.Products]: products,
 });
 

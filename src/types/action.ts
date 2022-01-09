@@ -4,10 +4,10 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { State } from './state';
 
 export enum ActionType {
+  SetFilter = 'app/setFilter',
   ChangeSortType = 'app/changeSortType',
   ChangeSortOrder = 'app/changeSortOrder',
-  ChangeMinPrice = 'user/changeMinPrice',
-  ChangeMaxPrice = 'user/changeMaxPrice',
+  ChangePrice = 'user/changePrice',
   LoadGuitarsRequest = 'data/loadGuitarsRequest',
   LoadGuitarsSuccess = 'data/loadGuitarsSuccess',
   LoadGuitarsError = 'data/loadGuitarsError',

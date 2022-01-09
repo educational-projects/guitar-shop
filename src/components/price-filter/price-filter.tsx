@@ -1,13 +1,12 @@
-import { useState, useEffect, useMemo, ChangeEvent } from 'react';
+import { useState, useMemo, ChangeEvent, useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getGuitars } from '../../store/products/selectors';
 import { PriceType } from '../../const';
-import { fetchGuitarsAction } from '../../store/api-action';
-import useDebounce from '../../hooks/use-debounce/use-debounce';
+import { changePrice } from '../../store/action';
 
 type FieldProps = {
   placeholder: string,
-  value: string
+  value: string | null
 }
 
 type PriceState = {
@@ -19,69 +18,91 @@ function PriceFilter(): JSX.Element {
   const guitars = useSelector(getGuitars, shallowEqual);
   const prices = useMemo(() => guitars.map((guitar) => guitar.price), [guitars]);
 
-  const [priceState, setPriceState] = useState<PriceState>({
-    Min: {
+  const [localPriceState, setLocalPriceState] = useState<PriceState>({
+    minPrice: {
       placeholder: '0',
       value: '',
     },
-    Max: {
+    maxPrice: {
       placeholder: '0',
       value: '',
     },
   });
 
-  const debouncedPriceSet = useDebounce<PriceState>(priceState, 1000);
-
   useEffect(() => {
     if (prices.length) {
-      setPriceState({
-        Min: {
+      setLocalPriceState({
+        ...localPriceState,
+        minPrice: {
+          ...localPriceState.minPrice,
           placeholder: Math.min(...prices).toString(),
-          value: debouncedPriceSet.Min.value,
         },
-        Max: {
+        maxPrice: {
+          ...localPriceState.maxPrice,
           placeholder: Math.max(...prices).toString(),
-          value: debouncedPriceSet.Max.value,
         },
       });
     }
-  }, [debouncedPriceSet.Max.value, debouncedPriceSet.Min.value, prices]);
+  }, [prices]);
 
   const handleChangePrice = ({target}: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = target;
 
-    setPriceState({
-      ...priceState,
+    setLocalPriceState({
+      ...localPriceState,
       [name]: {
-        ...priceState[name],
+        ...localPriceState[name],
         value: value,
       },
     });
   };
 
-  useEffect(() => {
-    if (debouncedPriceSet.Min.value || debouncedPriceSet.Max.value) {
-      dispatch(fetchGuitarsAction({
-        'price_gte': debouncedPriceSet.Min.value || debouncedPriceSet.Min.placeholder,
-        'price_lte': debouncedPriceSet.Max.value || debouncedPriceSet.Max.placeholder,
-      }));
+  const handleBlurPrice = ({target}: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = target;
+    let correctedPrice: string | null = value;
+
+    if (Number(value) < Number(localPriceState.minPrice.placeholder) && name === 'minPrice') {
+      correctedPrice = localPriceState.minPrice.placeholder;
     }
-  }, [dispatch, debouncedPriceSet.Max.placeholder, debouncedPriceSet.Max.value, debouncedPriceSet.Min.value, debouncedPriceSet.Min.placeholder]);
+
+    if (Number(value) > Number(localPriceState.maxPrice.placeholder) && name === 'maxPrice') {
+      correctedPrice = localPriceState.maxPrice.placeholder;
+    }
+
+    if (Number(value) < Number(localPriceState.minPrice.placeholder) && name === 'maxPrice') {
+      correctedPrice = localPriceState.maxPrice.placeholder;
+    }
+
+    if (value === '0' || !value.length) {
+      correctedPrice = null;
+    }
+
+    setLocalPriceState({
+      ...localPriceState,
+      [name]: {
+        ...localPriceState[name],
+        value: correctedPrice,
+      },
+    });
+
+    dispatch(changePrice(name, correctedPrice));
+  };
 
   return (
     <fieldset className="catalog-filter__block">
       <legend className="catalog-filter__block-title">Цена, ₽</legend>
       <div className="catalog-filter__price-range">
-        {Object.entries(PriceType).map(([range, {label}]) => (
+        {Object.entries(PriceType).map(([range, {label, name}]) => (
           <div className="form-input" key={range}>
             <label className="visually-hidden">{label}</label>
             <input
               type="number"
-              placeholder={priceState[range].placeholder}
+              placeholder={localPriceState[name].placeholder}
               id={`price${range}`}
-              name={range}
+              name={name}
               onChange={handleChangePrice}
-              value={priceState[range].value}
+              onBlur={handleBlurPrice}
+              value={`${localPriceState[name].value}`}
             />
           </div>
         ))}

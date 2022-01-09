@@ -4,7 +4,7 @@ export enum APPRoute {
 }
 
 export enum APIRoute {
-  Guitars = '/guitars?_embed=comments',
+  Guitars = '/guitars',
 }
 
 export const SortType = {
@@ -32,8 +32,10 @@ export const SortOrder = {
 export const PriceType = {
   Min: {
     label: 'Минимальная цена',
+    name: 'minPrice',
   },
   Max: {
     label: 'Максимальная цена',
+    name: 'maxPrice',
   },
 } as const;

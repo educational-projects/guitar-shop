@@ -1,22 +1,13 @@
-import {useEffect} from 'react';
 import cn from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { SortOrder, SortType } from '../../const';
 import { changeSortOrder, changeSortType } from '../../store/action';
-import { fetchGuitarsAction } from '../../store/api-action';
-import { getSortOrder, getSortType } from '../../store/app/selectors';
+import { getSortOrder, getSortType } from '../../store/filter/selectors';
 
 function Sorting(): JSX.Element {
   const dispatch = useDispatch();
   const sortType = useSelector(getSortType);
   const sortOrder = useSelector(getSortOrder);
-
-  useEffect(() => {
-    dispatch(fetchGuitarsAction({
-      _sort: sortType,
-      _order: sortOrder,
-    }));
-  }, [sortType, sortOrder, dispatch]);
 
   return (
     <div className="catalog-sort">
