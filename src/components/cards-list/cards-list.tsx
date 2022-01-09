@@ -18,12 +18,13 @@ function CardsList(): JSX.Element {
   const parsed = queryString.parse(history.location.search.substring(1));
 
   const actualFilter = (() => ({
-    sortType : filter.sortType || parsed._sort as string,
+    sortType : filter.sortType || parsed._sort as string | null,
     sortOrder: filter.sortOrder || parsed._order as string,
     minPrice: filter.minPrice || parsed.price_gte as string,
     maxPrice: filter.maxPrice || parsed.price_lte as string,
+    guitarType: filter.guitarType,
+    numberOfString: filter.numberOfString,
   }))();
-
 
   const queryParams: Record<string, string> = (() => {
     const querys: Record<string, string> = {};

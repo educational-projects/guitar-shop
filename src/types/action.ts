@@ -5,9 +5,11 @@ import { State } from './state';
 
 export enum ActionType {
   SetFilter = 'app/setFilter',
-  ChangeSortType = 'app/changeSortType',
-  ChangeSortOrder = 'app/changeSortOrder',
+  ChangeSortType = 'user/changeSortType',
+  ChangeSortOrder = 'user/changeSortOrder',
   ChangePrice = 'user/changePrice',
+  ChangeGuitarType = 'user/changeGuitarType',
+  ChangeNumberOfString = 'user/changeNumberOfString',
   LoadGuitarsRequest = 'data/loadGuitarsRequest',
   LoadGuitarsSuccess = 'data/loadGuitarsSuccess',
   LoadGuitarsError = 'data/loadGuitarsError',

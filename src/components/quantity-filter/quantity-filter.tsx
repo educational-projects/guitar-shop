@@ -1,23 +1,45 @@
+import { ChangeEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { NumberOfStringType } from '../../const';
+import { changeNumberOfString } from '../../store/action';
+import { getNumberOfString } from '../../store/filter/selectors';
+
 function QuantityFilter(): JSX.Element {
+  const dispatch = useDispatch();
+  const numberOfString = useSelector(getNumberOfString);
+
+  const handleInputChange = ({target}: ChangeEvent<HTMLInputElement>) => {
+    const {name} = target;
+    const selectedNumberOfString = [...numberOfString];
+    const index = selectedNumberOfString.findIndex((stringType) => stringType === name);
+
+    index === -1 ? selectedNumberOfString.push(name) : selectedNumberOfString.splice(index, 1);
+
+    dispatch(changeNumberOfString(selectedNumberOfString));
+  };
+
   return (
     <fieldset className="catalog-filter__block">
       <legend className="catalog-filter__block-title">Количество струн</legend>
-      <div className="form-checkbox catalog-filter__block-item">
-        <input className="visually-hidden" type="checkbox" id="4-strings" name="4-strings" checked />
-        <label htmlFor="4-strings">4</label>
-      </div>
-      <div className="form-checkbox catalog-filter__block-item">
-        <input className="visually-hidden" type="checkbox" id="6-strings" name="6-strings" checked />
-        <label htmlFor="6-strings">6</label>
-      </div>
-      <div className="form-checkbox catalog-filter__block-item">
-        <input className="visually-hidden" type="checkbox" id="7-strings" name="7-strings" />
-        <label htmlFor="7-strings">7</label>
-      </div>
-      <div className="form-checkbox catalog-filter__block-item">
-        <input className="visually-hidden" type="checkbox" id="12-strings" name="12-strings" disabled />
-        <label htmlFor="12-strings">12</label>
-      </div>
+      {Object.values(NumberOfStringType).map(({label}) => {
+        const isChecked = numberOfString.includes(`${label}-strings`);
+
+        return (
+          <div
+            key={label}
+            className="form-checkbox catalog-filter__block-item"
+          >
+            <input
+              className="visually-hidden"
+              type="checkbox" id={`${label}-strings`}
+              name={`${label}-strings`}
+              onChange={handleInputChange}
+              checked={isChecked}
+            />
+            <label htmlFor={`${label}-strings`}>{label}</label>
+          </div>
+        );
+      })}
     </fieldset>
   );
 }

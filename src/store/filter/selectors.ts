@@ -5,4 +5,6 @@ export const getSortType = (state: State): null | string => state[NameSpace.Filt
 export const getSortOrder = (state: State): null | string => state[NameSpace.Filter].sortOrder;
 export const getMinPrice = (state: State): null |string => state[NameSpace.Filter].minPrice;
 export const getMaxPrice = (state: State): null | string => state[NameSpace.Filter].maxPrice;
+export const getGuitarType = (state: State): string[] => state[NameSpace.Filter].guitarType;
+export const getNumberOfString = (state: State): string[] => state[NameSpace.Filter].numberOfString;
 export const getFilter = (state: State): FilterState => state[NameSpace.Filter];

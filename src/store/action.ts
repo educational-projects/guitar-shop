@@ -31,6 +31,24 @@ export const changePrice = createAction(
   }),
 );
 
+export const changeGuitarType = createAction(
+  ActionType.ChangeGuitarType,
+  (guitarType: string[]) => ({
+    payload: {
+      guitarType,
+    },
+  }),
+);
+
+export const changeNumberOfString = createAction(
+  ActionType.ChangeNumberOfString,
+  (numberOfString: string[]) => ({
+    payload: {
+      numberOfString,
+    },
+  }),
+);
+
 export const setFilter = createAction(
   ActionType.SetFilter,
   (actualFilter: FilterState) => ({

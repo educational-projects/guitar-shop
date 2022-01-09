@@ -39,3 +39,33 @@ export const PriceType = {
     name: 'maxPrice',
   },
 } as const;
+
+export const GuitarType = {
+  Acoustic: {
+    name: 'acoustic',
+    label: 'Акустические гитары',
+  },
+  Electric: {
+    name: 'electric',
+    label: 'Электрогитары',
+  },
+  Ukulele: {
+    name: 'ukulele',
+    label: 'Укулеле',
+  },
+};
+
+export const NumberOfStringType = {
+  Four: {
+    label: '4',
+  },
+  Six: {
+    label: '6',
+  },
+  Seven: {
+    label: '7',
+  },
+  Twelve: {
+    label: '12',
+  },
+};

@@ -1,12 +1,14 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { FilterState } from '../../types/state';
-import { changePrice, changeSortOrder, changeSortType, setFilter } from '../action';
+import { changeGuitarType, changeNumberOfString, changePrice, changeSortOrder, changeSortType, setFilter } from '../action';
 
 const initialState: FilterState = {
   sortType : null,
   sortOrder: null,
   minPrice: null,
   maxPrice: null,
+  guitarType: [],
+  numberOfString: [],
 };
 
 const filter = createReducer(initialState, (builder) => {
@@ -32,6 +34,14 @@ const filter = createReducer(initialState, (builder) => {
         ...state,
         [key]: price,
       };
+    })
+    .addCase(changeGuitarType, (state, action) => {
+      const {guitarType} = action.payload;
+      state.guitarType = guitarType;
+    })
+    .addCase(changeNumberOfString, (state, action) => {
+      const {numberOfString} = action.payload;
+      state.numberOfString = numberOfString;
     });
 });
 

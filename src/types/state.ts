@@ -12,6 +12,8 @@ export type FilterState = {
   sortOrder: null | string,
   minPrice:  null |string,
   maxPrice: null | string,
+  guitarType: string[],
+  numberOfString: string[],
 }
 
 export type State = RootState

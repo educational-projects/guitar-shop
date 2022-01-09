@@ -7,10 +7,10 @@ import { loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, setFilter } f
 export const fetchGuitarsAction = (query = {}, filter: FilterState ): ThunkActionResult => (
   async (dispatch, _getState, api) => {
     dispatch(loadGuitarsRequest());
-    dispatch(setFilter(filter));
     try {
       const {data} = await api.get<Guitars>(APIRoute.Guitars, {params: query});
       dispatch(loadGuitarsSuccess(data));
+      dispatch(setFilter(filter));
     } catch {
       dispatch(loadGuitarsError());
     }
