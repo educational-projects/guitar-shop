@@ -53,7 +53,7 @@ export const GuitarType = {
     name: 'ukulele',
     label: 'Укулеле',
   },
-};
+} as const;
 
 export const NumberOfStringType = {
   Four: {
@@ -68,4 +68,4 @@ export const NumberOfStringType = {
   Twelve: {
     label: '12',
   },
-};
+} as const;
