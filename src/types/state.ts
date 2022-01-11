@@ -14,6 +14,8 @@ export type FilterState = {
   maxPrice: null | string,
   guitarType: string[],
   numberOfString: string[],
+  placeholderPriceMin? : null | number,
+  placeholderPriceMax? : null | number,
 }
 
 export type State = RootState

@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { FilterState } from '../../types/state';
-import { changeGuitarType, changeNumberOfString, changePrice, changeSortOrder, changeSortType, setFilter } from '../action';
+import { changeGuitarType, changeNumberOfString, changePrice, changeSortOrder, changeSortType, loadPlaceholdersPriceSuccess, setFilter } from '../action';
 
 const initialState: FilterState = {
   sortType : null,
@@ -9,6 +9,8 @@ const initialState: FilterState = {
   maxPrice: null,
   guitarType: [],
   numberOfString: [],
+  placeholderPriceMin: null,
+  placeholderPriceMax: null,
 };
 
 const filter = createReducer(initialState, (builder) => {
@@ -42,6 +44,14 @@ const filter = createReducer(initialState, (builder) => {
     .addCase(changeNumberOfString, (state, action) => {
       const {numberOfString} = action.payload;
       state.numberOfString = numberOfString;
+    })
+    .addCase(loadPlaceholdersPriceSuccess, (state, action) => {
+      const {guitars} = action.payload;
+      return {
+        ...state,
+        placeholderPriceMin: guitars[0].price,
+        placeholderPriceMax: guitars[guitars.length - 1].price,
+      };
     });
 });
 

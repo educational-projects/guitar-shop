@@ -3,9 +3,11 @@ import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getGuitars } from '../../store/products/selectors';
 import { PriceType } from '../../const';
 import { changePrice } from '../../store/action';
+import { fetchPlaceholdersPriceAction } from '../../store/api-action';
+import { getPlaceholderPriceMax, getPlaceholderPriceMin } from '../../store/filter/selectors';
 
 type FieldProps = {
-  placeholder: string,
+  placeholder: null | number |string | undefined,
   value: string | null
 }
 
@@ -16,18 +18,28 @@ type PriceState = {
 function PriceFilter(): JSX.Element {
   const dispatch = useDispatch();
   const guitars = useSelector(getGuitars, shallowEqual);
+  const placeholderMin = useSelector(getPlaceholderPriceMin);
+  const placeholderMax = useSelector(getPlaceholderPriceMax);
   const prices = useMemo(() => guitars.map((guitar) => guitar.price), [guitars]);
 
   const [localPriceState, setLocalPriceState] = useState<PriceState>({
     minPrice: {
-      placeholder: '0',
+      placeholder: placeholderMin ? placeholderMin : '0',
       value: '',
     },
     maxPrice: {
-      placeholder: '0',
+      placeholder: placeholderMax? placeholderMax : '0',
       value: '',
     },
   });
+
+  useEffect(() => {
+    const query = {
+      _sort: 'price',
+      _order: 'ask',
+    };
+    dispatch(fetchPlaceholdersPriceAction(query));
+  }, []);
 
   useEffect(() => {
     if (prices.length) {
@@ -62,15 +74,15 @@ function PriceFilter(): JSX.Element {
     let correctedPrice: string | null = value;
 
     if (Number(value) < Number(localPriceState.minPrice.placeholder) && name === 'minPrice') {
-      correctedPrice = localPriceState.minPrice.placeholder;
+      correctedPrice = `${localPriceState.minPrice.placeholder}`;
     }
 
     if (Number(value) > Number(localPriceState.maxPrice.placeholder) && name === 'maxPrice') {
-      correctedPrice = localPriceState.maxPrice.placeholder;
+      correctedPrice = `${localPriceState.maxPrice.placeholder}`;
     }
 
     if (Number(value) < Number(localPriceState.minPrice.placeholder) && name === 'maxPrice') {
-      correctedPrice = localPriceState.maxPrice.placeholder;
+      correctedPrice = `${localPriceState.maxPrice.placeholder}`;
     }
 
     if (value === '0' || !value.length) {
@@ -97,7 +109,7 @@ function PriceFilter(): JSX.Element {
             <label className="visually-hidden">{label}</label>
             <input
               type="number"
-              placeholder={localPriceState[name].placeholder}
+              placeholder={`${localPriceState[name].placeholder}`}
               id={`price${range}`}
               name={name}
               onChange={handleChangePrice}

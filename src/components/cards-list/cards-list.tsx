@@ -50,16 +50,15 @@ function CardsList(): JSX.Element {
     return querys;
   })();
 
-
   useEffect(() => {
     history.push({
       pathname: APPRoute.Main,
       search: queryString.stringify(queryParams),
     });
 
+    console.log(actualFilter);
     dispatch(fetchGuitarsAction(queryParams, actualFilter));
   }, [actualFilter.sortType, actualFilter.sortOrder, actualFilter.minPrice, actualFilter.maxPrice, dispatch]);
-
 
   if (guitarsLoading) {
     return <Loader/>;

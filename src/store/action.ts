@@ -69,4 +69,17 @@ export const loadGuitarsSuccess = createAction(
   }),
 );
 
+export const loadPlaceholdersPriceRequest = createAction(ActionType.LoadPlaceholdersPriceRequest);
+
+export const loadPlaceholdersPriceSuccess = createAction(
+  ActionType.LoadPlaceholdersPriceSuccess,
+  (guitars: Guitars) => ({
+    payload: {
+      guitars,
+    },
+  }),
+);
+
+export const loadPlaceholdersPriceError = createAction(ActionType.LoadPlaceholdersPriceError);
+
 export const loadGuitarsError = createAction(ActionType.LoadGuitarsError);
