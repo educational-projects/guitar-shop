@@ -18,18 +18,24 @@ function CardsList(): JSX.Element {
   const parsed = queryString.parse(history.location.search.substring(1));
 
   const actualFilter = (() => ({
-    sortType : filter.sortType || parsed._sort as string | null,
+    sortType : filter.sortType || parsed._sort as string,
     sortOrder: filter.sortOrder || parsed._order as string,
     minPrice: filter.minPrice || parsed.price_gte as string,
     maxPrice: filter.maxPrice || parsed.price_lte as string,
-    guitarType: filter.guitarType,
+    guitarType: filter.guitarType || parsed.type as string,
     numberOfString: filter.numberOfString,
   }))();
+  // const actualFilter = (() => ({
+  //   sortType : filter.sortType || parsed._sort as string,
+  //   sortOrder: filter.sortOrder || parsed._order as string,
+  //   minPrice: filter.minPrice || parsed.price_gte as string,
+  //   maxPrice: filter.maxPrice || parsed.price_lte as string,
+  //   guitarType: filter.guitarType || parsed.type as string,
+  //   numberOfString: filter.numberOfString,
+  // }))();
 
-  const queryParams: Record<string, string> = (() => {
-    const querys: Record<string, string> = {};
-
-    querys['_embed'] = 'comments';
+  const queryParams: Record<string, string | string[]> = (() => {
+    const querys: Record<string, string | string[]> = {};
 
     if (actualFilter.sortType) {
       querys['_sort'] = actualFilter.sortType;
@@ -47,6 +53,10 @@ function CardsList(): JSX.Element {
       querys['price_lte'] = actualFilter.maxPrice;
     }
 
+    if (actualFilter.guitarType.length) {
+      querys['type'] = actualFilter.guitarType as string[];
+    }
+
     return querys;
   })();
 
@@ -55,10 +65,8 @@ function CardsList(): JSX.Element {
       pathname: APPRoute.Main,
       search: queryString.stringify(queryParams),
     });
-
-    console.log(actualFilter);
     dispatch(fetchGuitarsAction(queryParams, actualFilter));
-  }, [actualFilter.sortType, actualFilter.sortOrder, actualFilter.minPrice, actualFilter.maxPrice, dispatch]);
+  }, [actualFilter.sortType, actualFilter.sortOrder, actualFilter.numberOfString, actualFilter.minPrice, actualFilter.maxPrice, actualFilter.guitarType]);
 
   if (guitarsLoading) {
     return <Loader/>;

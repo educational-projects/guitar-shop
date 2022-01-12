@@ -6,9 +6,10 @@ import { loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadPlacehold
 
 export const fetchGuitarsAction = (query = {}, filter: FilterState ): ThunkActionResult => (
   async (dispatch, _getState, api) => {
+    const baseUrl = `${APIRoute.Guitars}?_embed=comments`;
     dispatch(loadGuitarsRequest());
     try {
-      const {data} = await api.get<Guitars>(APIRoute.Guitars, {params: query});
+      const {data} = await api.get<Guitars>(baseUrl, {params: query});
       dispatch(loadGuitarsSuccess(data));
       dispatch(setFilter(filter));
     } catch {
@@ -16,6 +17,18 @@ export const fetchGuitarsAction = (query = {}, filter: FilterState ): ThunkActio
     }
   }
 );
+// export const fetchGuitarsAction = (query = {}, filter: FilterState ): ThunkActionResult => (
+//   async (dispatch, _getState, api) => {
+//     dispatch(loadGuitarsRequest());
+//     try {
+//       const {data} = await api.get<Guitars>(APIRoute.Guitars, {params: query});
+//       dispatch(loadGuitarsSuccess(data));
+//       dispatch(setFilter(filter));
+//     } catch {
+//       dispatch(loadGuitarsError());
+//     }
+//   }
+// );
 
 export const fetchPlaceholdersPriceAction = (query = {}): ThunkActionResult => (
   async (dispatch, _getState, api) => {
