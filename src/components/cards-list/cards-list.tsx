@@ -8,6 +8,7 @@ import Card from '../card/card';
 import Loader from '../loader/loader';
 import { useHistory } from 'react-router-dom';
 import { APPRoute } from '../../const';
+import { setFilter } from '../../store/action';
 
 function CardsList(): JSX.Element {
   const dispatch = useDispatch();
@@ -18,55 +19,58 @@ function CardsList(): JSX.Element {
   const parsed = queryString.parse(history.location.search.substring(1));
 
   const actualFilter = (() => ({
-    sortType : filter.sortType || parsed._sort as string,
-    sortOrder: filter.sortOrder || parsed._order as string,
-    minPrice: filter.minPrice || parsed.price_gte as string,
-    maxPrice: filter.maxPrice || parsed.price_lte as string,
-    guitarType: filter.guitarType || parsed.type as string,
-    numberOfString: filter.numberOfString,
+    sortType : parsed._sort ? parsed._sort as string : filter.sortType,
+    sortOrder: parsed._order ? parsed._order as string : filter.sortOrder,
+    minPrice: parsed.price_gte ? parsed.price_gte as string : filter.minPrice,
+    maxPrice: parsed.price_lte ? parsed.price_lte as string : filter.maxPrice,
+    guitarType: parsed.type ? new Array(parsed.type).flat() : filter.guitarType,
+    numberOfString: parsed.stringCount ? new Array(parsed.stringCount).flat() : filter.numberOfString,
   }))();
-  // const actualFilter = (() => ({
-  //   sortType : filter.sortType || parsed._sort as string,
-  //   sortOrder: filter.sortOrder || parsed._order as string,
-  //   minPrice: filter.minPrice || parsed.price_gte as string,
-  //   maxPrice: filter.maxPrice || parsed.price_lte as string,
-  //   guitarType: filter.guitarType || parsed.type as string,
-  //   numberOfString: filter.numberOfString,
-  // }))();
 
   const queryParams: Record<string, string | string[]> = (() => {
     const querys: Record<string, string | string[]> = {};
 
-    if (actualFilter.sortType) {
-      querys['_sort'] = actualFilter.sortType;
+    if (filter.sortType) {
+      querys['_sort'] = filter.sortType as string;
     }
 
-    if (actualFilter.sortOrder) {
-      querys['_order'] = actualFilter.sortOrder;
+    if (filter.sortOrder) {
+      querys['_order'] = filter.sortOrder as string;
     }
 
-    if (actualFilter.minPrice) {
-      querys['price_gte'] = actualFilter.minPrice;
+    if (filter.minPrice) {
+      querys['price_gte'] = filter.minPrice as string;
     }
 
-    if (actualFilter.maxPrice) {
-      querys['price_lte'] = actualFilter.maxPrice;
+    if (filter.maxPrice) {
+      querys['price_lte'] = filter.maxPrice as string;
     }
 
-    if (actualFilter.guitarType.length) {
-      querys['type'] = actualFilter.guitarType as string[];
+    if (filter.guitarType.length) {
+      querys['type'] = filter.guitarType;
+    }
+
+    if (filter.numberOfString.length) {
+      querys['stringCount'] = filter.numberOfString as string[];
     }
 
     return querys;
   })();
 
+  // Первоначальная установка значений FILTER на основании url параметров
+  useEffect(() => {
+    dispatch(setFilter(actualFilter));
+  }, []);
+
+  // Запрос на получение товаров
   useEffect(() => {
     history.push({
       pathname: APPRoute.Main,
       search: queryString.stringify(queryParams),
     });
-    dispatch(fetchGuitarsAction(queryParams, actualFilter));
-  }, [actualFilter.sortType, actualFilter.sortOrder, actualFilter.numberOfString, actualFilter.minPrice, actualFilter.maxPrice, actualFilter.guitarType]);
+
+    dispatch(fetchGuitarsAction(queryParams));
+  }, [filter.guitarType, filter.maxPrice, filter.minPrice, filter.numberOfString, filter.sortOrder, filter.sortType]);
 
   if (guitarsLoading) {
     return <Loader/>;
