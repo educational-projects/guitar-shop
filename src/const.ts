@@ -7,6 +7,16 @@ export enum APIRoute {
   Guitars = '/guitars',
 }
 
+export enum APIQuery {
+  SortType = '_sort',
+  SortOrder = '_order',
+  MinPrice = 'price_gte',
+  MaxPrice = 'price_lte',
+  Type = 'type',
+  StringCount = 'stringCount',
+  Search = 'name_like',
+}
+
 export const SortType = {
   SortPrice: {
     type: 'price',

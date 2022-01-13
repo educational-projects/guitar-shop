@@ -16,6 +16,10 @@ export enum ActionType {
   LoadPlaceholdersPriceRequest = 'data/loadPlaceholdersPriceRequest',
   LoadPlaceholdersPriceSuccess = 'data/loadPlaceholdersPriceSuccess',
   LoadPlaceholdersPriceError = 'data/loadPlaceholdersPriceError',
+  LoadSearchGuitarsRequest = 'data/loadSearchGuitarsRequest',
+  LoadSearchGuitarsSuccess = 'data/loadSearchGuitarsSuccess',
+  LoadSearchGuitarsError = 'data/loadSearchGuitarsError',
+  ResetSearchGuitars = 'app/resetSearchGuitars',
 }
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

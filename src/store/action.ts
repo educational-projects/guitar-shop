@@ -83,3 +83,18 @@ export const loadPlaceholdersPriceSuccess = createAction(
 export const loadPlaceholdersPriceError = createAction(ActionType.LoadPlaceholdersPriceError);
 
 export const loadGuitarsError = createAction(ActionType.LoadGuitarsError);
+
+export const loadSearchGuitarsRequest = createAction(ActionType.LoadSearchGuitarsRequest);
+
+export const loadSearchGuitarsSuccess = createAction(
+  ActionType.LoadSearchGuitarsSuccess,
+  (searchGuitars: Guitars) => ({
+    payload: {
+      searchGuitars,
+    },
+  }),
+);
+
+export const resetSearchGuitars = createAction(ActionType.ResetSearchGuitars);
+
+export const loadSearchGuitarsError = createAction(ActionType.LoadSearchGuitarsError);

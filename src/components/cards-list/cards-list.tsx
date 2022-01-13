@@ -7,7 +7,7 @@ import * as queryString from 'querystring';
 import Card from '../card/card';
 import Loader from '../loader/loader';
 import { useHistory } from 'react-router-dom';
-import { APPRoute } from '../../const';
+import { APIQuery, APPRoute } from '../../const';
 import { setFilter } from '../../store/action';
 
 function CardsList(): JSX.Element {
@@ -18,7 +18,7 @@ function CardsList(): JSX.Element {
   const filter = useSelector(getFilter);
   const parsed = queryString.parse(history.location.search.substring(1));
 
-  const actualFilter = (() => ({
+  const initFilter = (() => ({
     sortType : parsed._sort ? parsed._sort as string : filter.sortType,
     sortOrder: parsed._order ? parsed._order as string : filter.sortOrder,
     minPrice: parsed.price_gte ? parsed.price_gte as string : filter.minPrice,
@@ -31,35 +31,35 @@ function CardsList(): JSX.Element {
     const querys: Record<string, string | string[]> = {};
 
     if (filter.sortType) {
-      querys['_sort'] = filter.sortType as string;
+      querys[APIQuery.SortType] = filter.sortType as string;
     }
 
     if (filter.sortOrder) {
-      querys['_order'] = filter.sortOrder as string;
+      querys[APIQuery.SortOrder] = filter.sortOrder as string;
     }
 
     if (filter.minPrice) {
-      querys['price_gte'] = filter.minPrice as string;
+      querys[APIQuery.MinPrice] = filter.minPrice as string;
     }
 
     if (filter.maxPrice) {
-      querys['price_lte'] = filter.maxPrice as string;
+      querys[APIQuery.MaxPrice] = filter.maxPrice as string;
     }
 
     if (filter.guitarType.length) {
-      querys['type'] = filter.guitarType;
+      querys[APIQuery.Type] = filter.guitarType;
     }
 
     if (filter.numberOfString.length) {
-      querys['stringCount'] = filter.numberOfString as string[];
+      querys[APIQuery.StringCount] = filter.numberOfString as string[];
     }
 
     return querys;
   })();
 
-  // Первоначальная установка значений FILTER на основании url параметров
+  // Восстановление значений FILTER на основании url параметров
   useEffect(() => {
-    dispatch(setFilter(actualFilter));
+    dispatch(setFilter(initFilter));
   }, []);
 
   // Запрос на получение товаров
@@ -70,7 +70,7 @@ function CardsList(): JSX.Element {
     });
 
     dispatch(fetchGuitarsAction(queryParams));
-  }, [filter.guitarType, filter.maxPrice, filter.minPrice, filter.numberOfString, filter.sortOrder, filter.sortType]);
+  }, [filter.guitarType, filter.maxPrice, filter.minPrice, filter.numberOfString, filter.sortOrder, filter.sortType, dispatch]);
 
   if (guitarsLoading) {
     return <Loader/>;

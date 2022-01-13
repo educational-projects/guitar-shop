@@ -5,6 +5,9 @@ export type ProductsState = {
   guitarsLoading: boolean,
   guitarsError: boolean,
   guitars: Guitars,
+  searchGuitarsLoading: boolean,
+  searchGuitarsError: boolean,
+  searchGuitars: Guitars,
 }
 
 export type FilterState = {

@@ -3,7 +3,7 @@ import { ThunkActionResult } from '../types/action';
 import { Guitars } from '../types/guitar';
 import {
   loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadPlaceholdersPriceError,
-  loadPlaceholdersPriceRequest, loadPlaceholdersPriceSuccess
+  loadPlaceholdersPriceRequest, loadPlaceholdersPriceSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest, loadSearchGuitarsSuccess
 } from './action';
 
 export const fetchGuitarsAction = (query = {}): ThunkActionResult => (
@@ -21,12 +21,24 @@ export const fetchGuitarsAction = (query = {}): ThunkActionResult => (
 
 export const fetchPlaceholdersPriceAction = (query = {}): ThunkActionResult => (
   async (dispatch, _getState, api) => {
-    dispatch(loadPlaceholdersPriceRequest);
+    dispatch(loadPlaceholdersPriceRequest());
     try {
       const {data} = await api.get<Guitars>(APIRoute.Guitars, {params: query});
       dispatch(loadPlaceholdersPriceSuccess(data));
     } catch {
       dispatch(loadPlaceholdersPriceError());
+    }
+  }
+);
+
+export const fetchSearchGuitarsAction = (query = {}): ThunkActionResult => (
+  async (dispatch, _getState, api) => {
+    dispatch(loadSearchGuitarsRequest());
+    try {
+      const {data} = await api.get<Guitars>(APIRoute.Guitars, {params: query});
+      dispatch(loadSearchGuitarsSuccess(data));
+    } catch {
+      dispatch(loadSearchGuitarsError());
     }
   }
 );

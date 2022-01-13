@@ -1,9 +1,12 @@
 import { useState, ChangeEvent } from 'react';
 import cn from 'classnames';
-import { useSelector } from 'react-redux';
-import { getGuitars } from '../../store/products/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import {  getGuitarsSearch } from '../../store/products/selectors';
 import { Link } from 'react-router-dom';
-import { APPRoute } from '../../const';
+import { APIQuery, APPRoute } from '../../const';
+import { fetchSearchGuitarsAction } from '../../store/api-action';
+import { resetSearchGuitars } from '../../store/action';
+import { useDebouncedCallback } from 'use-debounce';
 
 const initialState = {
   active: false,
@@ -11,19 +14,26 @@ const initialState = {
 };
 
 function SearchForm(): JSX.Element {
-  const guitars = useSelector(getGuitars);
+  const dispatch = useDispatch();
+  const guitarsSearch = useSelector(getGuitarsSearch);
   const [searchForm, setSearchForm] = useState(initialState);
 
-  const selectList = guitars.filter((guitar) => guitar.name.toLowerCase().includes(searchForm.value.toLowerCase()));
-
-  const handleChangeForm = ({target}: ChangeEvent<HTMLInputElement>) => {
+  const debouncedSearchChange = useDebouncedCallback(({target}: ChangeEvent<HTMLInputElement>) => {
     const {value} = target;
 
     setSearchForm((prevState) => ({
       ...prevState,
       value: value,
     }));
-  };
+
+    if (value) {
+      dispatch(fetchSearchGuitarsAction({
+        [APIQuery.Search]: value,
+      }));
+    } else {
+      dispatch(resetSearchGuitars());
+    }
+  }, 800);
 
   const handleFocusForm = () => {
     setSearchForm((prevState) => ({
@@ -33,7 +43,7 @@ function SearchForm(): JSX.Element {
   };
 
   const SearchListClasses = cn('form-search__select-list', {
-    'hidden' : !searchForm.value || !searchForm.active || !selectList.length,
+    'hidden' : !searchForm.value || !searchForm.active || !guitarsSearch.length,
   });
 
   return (
@@ -58,13 +68,13 @@ function SearchForm(): JSX.Element {
           id="search" type="text"
           autoComplete="off"
           placeholder="что вы ищите?"
-          onChange={handleChangeForm}
+          onChange={debouncedSearchChange}
           onFocus={handleFocusForm}
         />
         <label className="visually-hidden" htmlFor="search">Поиск</label>
       </form>
       <ul className={SearchListClasses} style={{zIndex: 1}}>
-        {selectList.map((guitar) => (
+        {guitarsSearch.map((guitar) => (
           <li
             className="form-search__select-item"
             key={guitar.id}
