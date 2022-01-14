@@ -1,14 +1,13 @@
-import { useState, useMemo, ChangeEvent, useEffect } from 'react';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { getGuitars } from '../../store/products/selectors';
+import { useState, ChangeEvent, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { PriceType } from '../../const';
 import { changePrice } from '../../store/action';
 import { fetchPlaceholdersPriceAction } from '../../store/api-action';
 import { getPlaceholderPriceMax, getPlaceholderPriceMin } from '../../store/filter/selectors';
 
 type FieldProps = {
-  placeholder: null | number |string | undefined,
-  value: string | null
+  placeholder: number | string | undefined,
+  value: string | null | undefined,
 }
 
 type PriceState = {
@@ -17,18 +16,16 @@ type PriceState = {
 
 function PriceFilter(): JSX.Element {
   const dispatch = useDispatch();
-  const guitars = useSelector(getGuitars, shallowEqual);
   const placeholderMin = useSelector(getPlaceholderPriceMin);
   const placeholderMax = useSelector(getPlaceholderPriceMax);
-  const prices = useMemo(() => guitars.map((guitar) => guitar.price), [guitars]);
 
   const [localPriceState, setLocalPriceState] = useState<PriceState>({
     minPrice: {
-      placeholder: placeholderMin ? placeholderMin : '0',
+      placeholder: placeholderMin,
       value: '',
     },
     maxPrice: {
-      placeholder: placeholderMax? placeholderMax : '0',
+      placeholder: placeholderMax,
       value: '',
     },
   });
@@ -39,23 +36,23 @@ function PriceFilter(): JSX.Element {
       _order: 'ask',
     };
     dispatch(fetchPlaceholdersPriceAction(query));
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
-    if (prices.length) {
+    if (placeholderMin && placeholderMax) {
       setLocalPriceState({
         ...localPriceState,
         minPrice: {
           ...localPriceState.minPrice,
-          placeholder: Math.min(...prices).toString(),
+          placeholder: placeholderMin,
         },
         maxPrice: {
           ...localPriceState.maxPrice,
-          placeholder: Math.max(...prices).toString(),
+          placeholder: placeholderMax,
         },
       });
     }
-  }, [prices]);
+  }, [placeholderMax, placeholderMin]);
 
   const handleChangePrice = ({target}: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = target;

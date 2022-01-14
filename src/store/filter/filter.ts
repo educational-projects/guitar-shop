@@ -9,8 +9,8 @@ const initialState: FilterState = {
   maxPrice: null,
   guitarType: [],
   numberOfString: [],
-  placeholderPriceMin: null,
-  placeholderPriceMax: null,
+  placeholderPriceMin: '',
+  placeholderPriceMax: '',
 };
 
 const filter = createReducer(initialState, (builder) => {

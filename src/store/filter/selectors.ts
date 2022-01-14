@@ -8,5 +8,5 @@ export const getMaxPrice = (state: State): null | string => state[NameSpace.Filt
 export const getGuitarType = (state: State): string[] => state[NameSpace.Filter].guitarType;
 export const getNumberOfString = (state: State): string[] => state[NameSpace.Filter].numberOfString;
 export const getFilter = (state: State): FilterState => state[NameSpace.Filter];
-export const getPlaceholderPriceMin = (state: State): null | number | undefined => state[NameSpace.Filter].placeholderPriceMin;
-export const getPlaceholderPriceMax = (state: State): null | number | undefined => state[NameSpace.Filter].placeholderPriceMax;
+export const getPlaceholderPriceMin = (state: State): string | number | undefined => state[NameSpace.Filter].placeholderPriceMin;
+export const getPlaceholderPriceMax = (state: State): string | number | undefined => state[NameSpace.Filter].placeholderPriceMax;

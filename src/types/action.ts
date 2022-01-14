@@ -5,6 +5,7 @@ import { State } from './state';
 
 export enum ActionType {
   SetFilter = 'app/setFilter',
+  SetCurrentPage = 'usest/setCurrentPage',
   ChangeSortType = 'user/changeSortType',
   ChangeSortOrder = 'user/changeSortOrder',
   ChangePrice = 'user/changePrice',

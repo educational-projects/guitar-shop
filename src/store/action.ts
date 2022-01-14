@@ -98,3 +98,12 @@ export const loadSearchGuitarsSuccess = createAction(
 export const resetSearchGuitars = createAction(ActionType.ResetSearchGuitars);
 
 export const loadSearchGuitarsError = createAction(ActionType.LoadSearchGuitarsError);
+
+export const setCurrentPage = createAction(
+  ActionType.SetCurrentPage,
+  (page: number) => ({
+    payload: {
+      page,
+    },
+  }),
+);

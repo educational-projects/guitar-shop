@@ -6,6 +6,7 @@ const initialState: ProductsState = {
   guitarsLoading: false,
   guitarsError: false,
   guitars: [],
+  totalGuitars: 3,
   searchGuitarsLoading: false,
   searchGuitarsError: false,
   searchGuitars: [],
@@ -20,6 +21,7 @@ const products = createReducer(initialState, (builder) => {
       const {guitars} = action.payload;
       state.guitarsLoading = false;
       state.guitars = guitars;
+      state.totalGuitars = guitars.length;
     })
     .addCase(loadGuitarsError, (state) => {
       state.guitarsLoading = false;
