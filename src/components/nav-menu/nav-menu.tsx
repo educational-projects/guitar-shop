@@ -1,22 +1,31 @@
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { MenuType } from './const';
+import cn from 'classnames';
+
 function NavMenu(): JSX.Element {
+  const [currentLink, setCurrentLink] = useState('');
+
   return (
     <nav className="main-nav">
       <ul className="main-nav__list">
-        <li>
-          <a className="link main-nav__link link--current" href="/">
-            Каталог
-          </a>
-        </li>
-        <li>
-          <a className="link main-nav__link" href="/">
-            Где купить?
-          </a>
-        </li>
-        <li>
-          <a className="link main-nav__link" href="/">
-            О компании
-          </a>
-        </li>
+        {Object.values(MenuType).map(({title, link}) => {
+          const linkClass = cn ('link main-nav__link', {
+            'link--current' : currentLink === title,
+          });
+
+          return (
+            <li key={title}>
+              <Link
+                className={linkClass}
+                to={link}
+                onClick={() => setCurrentLink(title)}
+              >
+                {title}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

@@ -1,6 +1,7 @@
 export enum APPRoute {
   Main = '/',
   Product = '/product',
+  Catalog = '/catalog',
 }
 
 export enum APIRoute {
@@ -15,6 +16,8 @@ export enum APIQuery {
   Type = 'type',
   StringCount = 'stringCount',
   Search = 'name_like',
+  Page = '_page',
+  Limit = '_limit'
 }
 
 export const SortType = {

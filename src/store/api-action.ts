@@ -11,8 +11,9 @@ export const fetchGuitarsAction = (query = {}): ThunkActionResult => (
     const baseUrl = `${APIRoute.Guitars}?_embed=comments`;
     dispatch(loadGuitarsRequest());
     try {
-      const {data} = await api.get<Guitars>(baseUrl, {params: query});
-      dispatch(loadGuitarsSuccess(data));
+      const {data, headers} = await api.get<Guitars>(baseUrl, {params: query});
+      const count = headers['x-total-count'];
+      dispatch(loadGuitarsSuccess(data, count));
     } catch {
       dispatch(loadGuitarsError());
     }

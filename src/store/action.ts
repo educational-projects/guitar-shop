@@ -62,9 +62,10 @@ export const loadGuitarsRequest = createAction(ActionType.LoadGuitarsRequest);
 
 export const loadGuitarsSuccess = createAction(
   ActionType.LoadGuitarsSuccess,
-  (guitars: Guitars) => ({
+  (guitars: Guitars, count: number | string) => ({
     payload: {
       guitars,
+      count,
     },
   }),
 );

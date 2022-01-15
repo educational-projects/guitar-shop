@@ -8,7 +8,10 @@ import Card from '../card/card';
 import Loader from '../loader/loader';
 import { useHistory } from 'react-router-dom';
 import { APIQuery, APPRoute } from '../../const';
-import { setFilter } from '../../store/action';
+import { setCurrentPage, setFilter } from '../../store/action';
+import { getCurrentPage } from '../../store/pagination/selectors';
+
+const MAX_LIMIT = '9';
 
 function CardsList(): JSX.Element {
   const dispatch = useDispatch();
@@ -16,6 +19,7 @@ function CardsList(): JSX.Element {
   const guitars = useSelector(getGuitars);
   const guitarsLoading = useSelector(getGuitarsLoading);
   const filter = useSelector(getFilter);
+  const currentPage = useSelector(getCurrentPage);
   const parsed = queryString.parse(history.location.search.substring(1));
 
   const initFilter = (() => ({
@@ -26,6 +30,8 @@ function CardsList(): JSX.Element {
     guitarType: parsed.type ? new Array(parsed.type).flat() : filter.guitarType,
     numberOfString: parsed.stringCount ? new Array(parsed.stringCount).flat() : filter.numberOfString,
   }))();
+
+  const initPage = parsed[APIQuery.Page] ? Number(parsed[APIQuery.Page]) : currentPage;
 
   const queryParams: Record<string, string | string[]> = (() => {
     const querys: Record<string, string | string[]> = {};
@@ -54,23 +60,28 @@ function CardsList(): JSX.Element {
       querys[APIQuery.StringCount] = filter.numberOfString as string[];
     }
 
+    querys[APIQuery.Page] = initPage.toString();
+
+    querys[APIQuery.Limit] = MAX_LIMIT;
+
     return querys;
   })();
 
-  // Восстановление значений FILTER на основании url параметров
+  // Восстановление значений FILTER и страницы каталога на основании url параметров
   useEffect(() => {
     dispatch(setFilter(initFilter));
+    dispatch(setCurrentPage(initPage));
   }, []);
 
   // Запрос на получение товаров
   useEffect(() => {
     history.push({
-      pathname: APPRoute.Main,
+      pathname: APPRoute.Catalog,
       search: queryString.stringify(queryParams),
     });
 
     dispatch(fetchGuitarsAction(queryParams));
-  }, [filter.guitarType, filter.maxPrice, filter.minPrice, filter.numberOfString, filter.sortOrder, filter.sortType, dispatch]);
+  }, [dispatch, filter.guitarType, filter.maxPrice, filter.minPrice, filter.numberOfString, filter.sortOrder, filter.sortType]);
 
   if (guitarsLoading) {
     return <Loader/>;
