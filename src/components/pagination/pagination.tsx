@@ -23,6 +23,11 @@ function Pagination(): JSX.Element {
   const totalPages = Math.ceil(totalGuitars / LIMIT_ON_PAGE);
   const pageNumber = [];
 
+  const PaginationButton = {
+    left: currentPage > 1 ? currentPage - 2 : currentPage - 1,
+    right: currentPage > 1 ? currentPage + 1 : currentPage + 2,
+  };
+
   for (let i = 1; i <= totalPages; i++) {
     pageNumber.push(i);
   }
@@ -59,7 +64,7 @@ function Pagination(): JSX.Element {
           </li>
         )}
 
-        {pageNumber.slice(currentPage - 1, currentPage + 2).map((number) => {
+        {pageNumber.slice(PaginationButton.left, PaginationButton.right).map((number) => {
           const liClasses = cn ('pagination__page', {
             'pagination__page--active' :  currentPage === number,
           });

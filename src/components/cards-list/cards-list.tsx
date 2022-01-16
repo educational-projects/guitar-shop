@@ -81,7 +81,7 @@ function CardsList(): JSX.Element {
     });
 
     dispatch(fetchGuitarsAction(queryParams));
-  }, [dispatch, filter.guitarType, filter.maxPrice, filter.minPrice, filter.numberOfString, filter.sortOrder, filter.sortType]);
+  }, [dispatch, filter.guitarType, filter.maxPrice, filter.minPrice, filter.numberOfString, filter.sortOrder, filter.sortType, currentPage]);
 
   if (guitarsLoading) {
     return <Loader/>;
