@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { PriceType } from '../../const';
 import { changePrice } from '../../store/action';
 import { fetchPlaceholdersPriceAction } from '../../store/api-action';
-import { getPlaceholderPriceMax, getPlaceholderPriceMin } from '../../store/filter/selectors';
+import { getMaxPrice, getMinPrice, getPlaceholderPriceMax, getPlaceholderPriceMin } from '../../store/filter/selectors';
 
 type FieldProps = {
   placeholder: number | string | undefined,
@@ -18,6 +18,8 @@ function PriceFilter(): JSX.Element {
   const dispatch = useDispatch();
   const placeholderMin = useSelector(getPlaceholderPriceMin);
   const placeholderMax = useSelector(getPlaceholderPriceMax);
+  const minPrice = useSelector(getMinPrice);
+  const maxPrice = useSelector(getMaxPrice);
 
   const [localPriceState, setLocalPriceState] = useState<PriceState>({
     minPrice: {
@@ -52,7 +54,23 @@ function PriceFilter(): JSX.Element {
         },
       });
     }
-  }, [placeholderMax, placeholderMin]);
+
+    if (minPrice || maxPrice) {
+      setLocalPriceState({
+        ...localPriceState,
+        minPrice: {
+          ...localPriceState.minPrice,
+          value: minPrice,
+          placeholder: placeholderMin,
+        },
+        maxPrice: {
+          ...localPriceState.maxPrice,
+          value: maxPrice,
+          placeholder: placeholderMax,
+        },
+      });
+    }
+  }, [placeholderMax, placeholderMin, minPrice, maxPrice]);
 
   const handleChangePrice = ({target}: ChangeEvent<HTMLInputElement>) => {
     const {name, value} = target;
