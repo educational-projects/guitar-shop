@@ -130,6 +130,7 @@ function PriceFilter(): JSX.Element {
               onChange={handleChangePrice}
               onBlur={handleBlurPrice}
               value={`${localPriceState[name].value}`}
+              data-testId={name}
             />
           </div>
         ))}

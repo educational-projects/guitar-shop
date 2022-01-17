@@ -1,6 +1,6 @@
 import  faker from 'faker/locale/ru';
 import { Comment, Guitar } from '../types/guitar';
-import { FilterState } from '../types/state';
+import { FilterState, State } from '../types/state';
 
 const guitarType = ['electro', 'ukulele', 'bass'];
 const numberOfString = ['4', '6', '7', '12'];
@@ -36,4 +36,29 @@ export const makeFakeGuitar = (): Guitar => ({
   rating: Math.floor(Math.random() * 6),
   price: faker.datatype.number(),
   comments: new Array(5).fill(null).map(() => makeFakeComment()),
+});
+
+export const makeFakeStore = (): State => ({
+  PRODUCTS: {
+    guitarsLoading: false,
+    guitarsError: false,
+    guitars: new Array(5).fill(null).map(()=>(makeFakeGuitar())),
+    totalGuitars: 20,
+    searchGuitarsLoading: false,
+    searchGuitarsError: false,
+    searchGuitars: new Array(5).fill(null).map(()=>(makeFakeGuitar())),
+  },
+  FILTER: {
+    sortType: 'price',
+    sortOrder: 'order',
+    minPrice:  null,
+    maxPrice: null,
+    guitarType: [guitarType[1]],
+    numberOfString: [numberOfString[3]],
+    placeholderPriceMin : 1700,
+    placeholderPriceMax : 35000,
+  },
+  PAGINATION: {
+    currentPage: 1,
+  },
 });

@@ -7,10 +7,10 @@ export const MenuType = {
   },
   Store: {
     title: 'Где купить?',
-    link: '#',
+    link: APPRoute.Store,
   },
   About: {
     title: 'О компании',
-    link: '#',
+    link: APPRoute.About,
   },
 } as const;

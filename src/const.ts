@@ -2,6 +2,8 @@ export enum APPRoute {
   Main = '/',
   Product = '/product',
   Catalog = '/catalog',
+  About = '/about',
+  Store = '/store'
 }
 
 export enum APIRoute {

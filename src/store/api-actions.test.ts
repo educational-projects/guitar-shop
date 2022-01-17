@@ -20,24 +20,24 @@ describe('Async offers data actions', () => {
     ThunkDispatch<State, typeof api, Action>
   >(middlewares);
 
-  // it('should guitars when server return 200', async () => {
-  //   const store = mockStore();
-  //   const fakeGuitars = new Array(5).fill(null).map(() => (makeFakeGuitar()));
-  //   const count = fakeGuitars.length;
+  it('should guitars when server return 200', async () => {
+    const store = mockStore();
+    const fakeGuitars = new Array(5).fill(null).map(() => (makeFakeGuitar()));
+    const count = fakeGuitars.length;
 
-  //   mockAPI
-  //     .onGet(`${APIRoute.Guitars}?_embed=comments`)
-  //     .reply(200, fakeGuitars, {headers: count});
+    mockAPI
+      .onGet(`${APIRoute.Guitars}?_embed=comments`)
+      .reply(200, fakeGuitars, {headers: count});
 
-  //   expect(store.getActions()).toEqual([]);
+    expect(store.getActions()).toEqual([]);
 
-  //   await store.dispatch(fetchGuitarsAction());
+    await store.dispatch(fetchGuitarsAction());
 
-  //   expect(store.getActions()).toEqual([
-  //     loadGuitarsRequest(),
-  //     loadGuitarsSuccess(fakeGuitars, count),
-  //   ]);
-  // });
+    expect(store.getActions()).toEqual([
+      loadGuitarsRequest(),
+      loadGuitarsSuccess(fakeGuitars, count),
+    ]);
+  });
 
   it('should return guitars error when server return 404', async () => {
     const store = mockStore();
