@@ -37,5 +37,3 @@ export const makeFakeGuitar = (): Guitar => ({
   price: faker.datatype.number(),
   comments: new Array(5).fill(null).map(() => makeFakeComment()),
 });
-
-
