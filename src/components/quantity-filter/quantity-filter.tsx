@@ -56,6 +56,7 @@ function QuantityFilter(): JSX.Element {
               value={label}
               checked={isChecked}
               disabled={isDisabled}
+              data-testId={label}
             />
             <label htmlFor={`${label}-strings`}>{label}</label>
           </div>

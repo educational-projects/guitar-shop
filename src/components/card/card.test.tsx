@@ -4,24 +4,25 @@ import thunk from 'redux-thunk';
 import {createMemoryHistory} from 'history';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {Provider} from 'react-redux';
-import { makeFakeStore } from '../../utils/mock';
-import PriceFilter from './price-filter';
+import { makeFakeGuitar, makeFakeStore } from '../../utils/mock';
+import Card from './card';
 
 const mockStore = configureMockStore([thunk]);
 const history = createMemoryHistory();
 const store = mockStore(makeFakeStore());
 
-describe('Component: PriceFilter', () => {
+describe('Component: Card', () => {
+  const card = makeFakeGuitar();
   it('should render correctly', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <PriceFilter/>
+          <Card guitar={card}/>
         </Router>
       </Provider>,
     );
 
-    expect(screen.getByTestId('minPrice')).toBeInTheDocument();
-    expect(screen.getByTestId('maxPrice')).toBeInTheDocument();
+    expect(screen.getByText('Купить')).toBeInTheDocument();
+    expect(screen.getByText('Подробнее')).toBeInTheDocument();
   });
 });

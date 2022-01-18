@@ -6,13 +6,14 @@ import { State } from '../types/state';
 import { Action } from 'redux';
 import { APIRoute } from '../const';
 import { makeFakeGuitar } from '../utils/mock';
-import { fetchGuitarsAction } from './api-action';
-import { loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess } from './action';
+import { fetchGuitarsAction, fetchPlaceholdersPriceAction } from './api-action';
+import { loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadPlaceholdersPriceSuccess, loadPlaceholdersPriceRequest, loadPlaceholdersPriceError } from './action';
 
 describe('Async offers data actions', () => {
   const api = createApi();
   const mockAPI = new MockAdapter(api);
   const middlewares = [thunk.withExtraArgument(api)];
+  const fakeGuitars = new Array(5).fill(null).map(() => (makeFakeGuitar()));
 
   const mockStore = configureMockStore<
     State,
@@ -22,12 +23,11 @@ describe('Async offers data actions', () => {
 
   it('should guitars when server return 200', async () => {
     const store = mockStore();
-    const fakeGuitars = new Array(5).fill(null).map(() => (makeFakeGuitar()));
     const count = fakeGuitars.length;
 
     mockAPI
       .onGet(`${APIRoute.Guitars}?_embed=comments`)
-      .reply(200, fakeGuitars, {headers: count});
+      .reply(200, fakeGuitars, {'x-total-count': count});
 
     expect(store.getActions()).toEqual([]);
 
@@ -39,6 +39,38 @@ describe('Async offers data actions', () => {
     ]);
   });
 
+  it('should return placeholders when server return 200', async () => {
+    const store = mockStore();
+
+    mockAPI
+      .onGet(APIRoute.Guitars)
+      .reply(200, fakeGuitars);
+
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(fetchPlaceholdersPriceAction());
+
+    expect(store.getActions()).toEqual([
+      loadPlaceholdersPriceRequest(),
+      loadPlaceholdersPriceSuccess(fakeGuitars),
+    ]);
+  });
+  it('should return placeholders error when server return 200', async () => {
+    const store = mockStore();
+
+    mockAPI
+      .onGet(APIRoute.Guitars)
+      .reply(400, []);
+
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(fetchPlaceholdersPriceAction());
+
+    expect(store.getActions()).toEqual([
+      loadPlaceholdersPriceRequest(),
+      loadPlaceholdersPriceError(),
+    ]);
+  });
   it('should return guitars error when server return 404', async () => {
     const store = mockStore();
 

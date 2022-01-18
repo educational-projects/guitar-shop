@@ -5,23 +5,27 @@ import {createMemoryHistory} from 'history';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {Provider} from 'react-redux';
 import { makeFakeStore } from '../../utils/mock';
-import PriceFilter from './price-filter';
+import Header from './header';
 
 const mockStore = configureMockStore([thunk]);
 const history = createMemoryHistory();
 const store = mockStore(makeFakeStore());
 
-describe('Component: PriceFilter', () => {
+describe('Component: Header', () => {
   it('should render correctly', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <PriceFilter/>
+          <Header/>
         </Router>
       </Provider>,
     );
 
-    expect(screen.getByTestId('minPrice')).toBeInTheDocument();
-    expect(screen.getByTestId('maxPrice')).toBeInTheDocument();
+    expect(screen.getByAltText(/Логотип/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Корзина/i)).toBeInTheDocument();
+    expect(screen.getByText('Каталог')).toBeInTheDocument();
+    expect(screen.getByText(/Где купить?/i)).toBeInTheDocument();
+    expect(screen.getByText(/О компании/i)).toBeInTheDocument();
+    expect(screen.getByPlaceholderText(/что вы ищите?/i)).toBeInTheDocument();
   });
 });
