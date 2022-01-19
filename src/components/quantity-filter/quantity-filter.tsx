@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GuitarType, NumberOfStringType } from '../../const';
-import { changeNumberOfString } from '../../store/action';
+import { changeNumberOfString, setCurrentPage } from '../../store/action';
 import { getGuitarType, getNumberOfString } from '../../store/filter/selectors';
 
 const getStringsFromType = (type: string): string[] => {
@@ -33,6 +33,7 @@ function QuantityFilter(): JSX.Element {
 
     index === -1 ? selectedNumberOfString.push(value) : selectedNumberOfString.splice(index, 1);
 
+    dispatch(setCurrentPage(1));
     dispatch(changeNumberOfString(selectedNumberOfString));
   };
 
@@ -56,7 +57,7 @@ function QuantityFilter(): JSX.Element {
               value={label}
               checked={isChecked}
               disabled={isDisabled}
-              data-testId={label}
+              data-testid={label}
             />
             <label htmlFor={`${label}-strings`}>{label}</label>
           </div>

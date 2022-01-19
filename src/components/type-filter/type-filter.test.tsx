@@ -6,7 +6,7 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { makeFakeStore } from '../../utils/mock';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
-import { changeGuitarType } from '../../store/action';
+import { changeGuitarType, setCurrentPage } from '../../store/action';
 import TypeFilter from './type-filter';
 
 const history = createMemoryHistory();
@@ -30,7 +30,7 @@ describe('Component: TypeFilter', () => {
     expect(screen.getByText('Электрогитары')).toBeInTheDocument();
     expect(screen.getByText('Укулеле')).toBeInTheDocument();
   });
-  it('should render click', () => {
+  it('expected to change the type of guitars after the click', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
@@ -47,6 +47,7 @@ describe('Component: TypeFilter', () => {
 
     userEvent.click(input);
     expect(store.getActions()).toEqual([
+      setCurrentPage(1),
       changeGuitarType(['electric']),
     ]);
   });

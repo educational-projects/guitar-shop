@@ -33,6 +33,10 @@ function CardsList(): JSX.Element {
 
   const initPage = parsed[APIQuery.Page] ? Number(parsed[APIQuery.Page]) : currentPage;
 
+  useEffect(() => {
+    console.log('изменилось');
+  }, [history.location.search]);
+
   const queryParams: Record<string, string | string[]> = (() => {
     const querys: Record<string, string | string[]> = {};
 

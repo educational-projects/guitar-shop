@@ -7,7 +7,7 @@ import { makeFakeStore } from '../../utils/mock';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import QuantityFilter from './quantity-filter';
-import { changeNumberOfString } from '../../store/action';
+import { changeNumberOfString, setCurrentPage } from '../../store/action';
 
 const history = createMemoryHistory();
 const mockStore = configureMockStore([thunk]);
@@ -48,6 +48,7 @@ describe('Component: PriceFilter', () => {
 
     userEvent.click(input);
     expect(store.getActions()).toEqual([
+      setCurrentPage(1),
       changeNumberOfString([fourStrings]),
     ]);
   });

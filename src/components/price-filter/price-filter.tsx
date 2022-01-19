@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { PriceType } from '../../const';
-import { changePrice } from '../../store/action';
+import { changePrice, setCurrentPage } from '../../store/action';
 import { fetchPlaceholdersPriceAction } from '../../store/api-action';
 import { getMaxPrice, getMinPrice, getPlaceholderPriceMax, getPlaceholderPriceMin } from '../../store/filter/selectors';
 
@@ -112,6 +112,7 @@ function PriceFilter(): JSX.Element {
       },
     });
 
+    dispatch(setCurrentPage(1));
     dispatch(changePrice(name, correctedPrice));
   };
 
@@ -130,7 +131,7 @@ function PriceFilter(): JSX.Element {
               onChange={handleChangePrice}
               onBlur={handleBlurPrice}
               value={`${localPriceState[name].value}`}
-              data-testId={name}
+              data-testid={name}
             />
           </div>
         ))}

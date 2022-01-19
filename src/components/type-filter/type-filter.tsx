@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { GuitarType } from '../../const';
-import { changeGuitarType } from '../../store/action';
+import { changeGuitarType, setCurrentPage } from '../../store/action';
 import { getGuitarType } from '../../store/filter/selectors';
 
 function TypeFilter(): JSX.Element {
@@ -15,6 +15,7 @@ function TypeFilter(): JSX.Element {
 
     index === -1 ? selectedGuitarTypes.push(name) : selectedGuitarTypes.splice(index, 1);
 
+    dispatch(setCurrentPage(1));
     dispatch(changeGuitarType(selectedGuitarTypes));
   };
 
