@@ -1,13 +1,36 @@
 import cn from 'classnames';
-import { useDispatch, useSelector } from 'react-redux';
-import { SortOrder, SortType } from '../../const';
-import { changeSortOrder, changeSortType } from '../../store/action';
-import { getSortOrder, getSortType } from '../../store/filter/selectors';
+import { useHistory, useLocation } from 'react-router-dom';
+import { APIQuery, SortOrder, SortType } from '../../const';
 
 function Sorting(): JSX.Element {
-  const dispatch = useDispatch();
-  const sortType = useSelector(getSortType);
-  const sortOrder = useSelector(getSortOrder);
+  const { search, pathname } = useLocation();
+  const history = useHistory();
+
+  const urlParams = new URLSearchParams(search);
+
+  const sortType = urlParams.get(APIQuery.SortType);
+  const sortOrder = urlParams.get(APIQuery.SortOrder);
+
+  const handleChangeSortOrder = (type: string) => {
+    if (!sortType) {
+      urlParams.set(APIQuery.SortType, 'price');
+    }
+
+    urlParams.set(APIQuery.SortOrder, type);
+
+    history.push({
+      pathname: pathname,
+      search: urlParams.toString(),
+    });
+  };
+
+  const handleChangeSortType = (type: string) => {
+    urlParams.set(APIQuery.SortType, type);
+    history.push({
+      pathname: pathname,
+      search: urlParams.toString(),
+    });
+  };
 
   return (
     <div className="catalog-sort">
@@ -26,7 +49,7 @@ function Sorting(): JSX.Element {
               className={buttonClass}
               aria-label={label}
               tabIndex={tabIndex}
-              onClick={() => dispatch(changeSortType(type)) }
+              onClick={() => handleChangeSortType(type)}
             >
               {label}
             </button>
@@ -47,13 +70,7 @@ function Sorting(): JSX.Element {
               className={buttonClass}
               aria-label={label}
               tabIndex={tabIndex}
-              onClick={() => {
-                dispatch(changeSortOrder(type));
-
-                if (!sortType) {
-                  dispatch(changeSortType('price'));
-                }
-              }}
+              onClick={() => handleChangeSortOrder(type)}
             />
           );
         },

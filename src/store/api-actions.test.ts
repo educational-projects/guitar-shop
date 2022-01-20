@@ -24,14 +24,15 @@ describe('Async offers data actions', () => {
   it('should guitars when server return 200', async () => {
     const store = mockStore();
     const count = fakeGuitars.length;
+    const fakeParams = '_page=1&_limit=9';
 
     mockAPI
-      .onGet(`${APIRoute.Guitars}?_embed=comments`)
+      .onGet(`${APIRoute.Guitars}?_embed=comments&${fakeParams}`)
       .reply(200, fakeGuitars, {'x-total-count': count});
 
     expect(store.getActions()).toEqual([]);
 
-    await store.dispatch(fetchGuitarsAction());
+    await store.dispatch(fetchGuitarsAction(fakeParams));
 
     expect(store.getActions()).toEqual([
       loadGuitarsRequest(),

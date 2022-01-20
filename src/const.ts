@@ -48,10 +48,12 @@ export const PriceType = {
   Min: {
     label: 'Минимальная цена',
     name: 'minPrice',
+    query: 'price_gte',
   },
   Max: {
     label: 'Максимальная цена',
     name: 'maxPrice',
+    query: 'price_lte',
   },
 } as const;
 

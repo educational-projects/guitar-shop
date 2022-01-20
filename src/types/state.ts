@@ -16,12 +16,6 @@ export type PaginationState = {
 }
 
 export type FilterState = {
-  sortType: null | string,
-  sortOrder: null | string,
-  minPrice:  null |string,
-  maxPrice: null | string,
-  guitarType: string[],
-  numberOfString: string[],
   placeholderPriceMin? : string | number | undefined,
   placeholderPriceMax? : string | number | undefined,
 }

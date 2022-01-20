@@ -1,18 +1,9 @@
 import  faker from 'faker/locale/ru';
 import { Comment, Guitar } from '../types/guitar';
-import { FilterState, State } from '../types/state';
+import { State } from '../types/state';
 
 const guitarType = ['electro', 'ukulele', 'bass'];
 const numberOfString = ['4', '6', '7', '12'];
-
-export const makeFakeFilter: FilterState = {
-  sortType: faker.name.firstName(),
-  sortOrder: faker.name.firstName(),
-  minPrice:  faker.datatype.number().toString(),
-  maxPrice: faker.datatype.number().toString(),
-  guitarType: guitarType.slice(0, Math.floor(Math.random() * 4)),
-  numberOfString: numberOfString.slice(0, Math.floor(Math.random() * 5)),
-};
 
 export const makeFakeComment = (): Comment => ({
   id: faker.datatype.number().toString(),
@@ -49,12 +40,6 @@ export const makeFakeStore = (): State => ({
     searchGuitars: [],
   },
   FILTER: {
-    sortType: null,
-    sortOrder: null,
-    minPrice:  null,
-    maxPrice: null,
-    guitarType: [],
-    numberOfString: [],
     placeholderPriceMin : '',
     placeholderPriceMax : '',
   },

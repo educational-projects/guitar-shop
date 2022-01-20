@@ -1,12 +1,16 @@
 import { ChangeEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { GuitarType } from '../../const';
-import { changeGuitarType, setCurrentPage } from '../../store/action';
-import { getGuitarType } from '../../store/filter/selectors';
+import { useDispatch } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { APIQuery, GuitarType } from '../../const';
+import { setCurrentPage } from '../../store/action';
 
 function TypeFilter(): JSX.Element {
   const dispatch = useDispatch();
-  const guitarType = useSelector(getGuitarType);
+  const history = useHistory();
+  const { search, pathname } = useLocation();
+  const urlParams = new URLSearchParams(search);
+
+  const guitarType = urlParams.getAll(APIQuery.Type);
 
   const changeInputGuitarType = ({target}: ChangeEvent<HTMLInputElement>) => {
     const {name} = target;
@@ -16,7 +20,14 @@ function TypeFilter(): JSX.Element {
     index === -1 ? selectedGuitarTypes.push(name) : selectedGuitarTypes.splice(index, 1);
 
     dispatch(setCurrentPage(1));
-    dispatch(changeGuitarType(selectedGuitarTypes));
+
+    urlParams.delete(APIQuery.Type);
+
+    selectedGuitarTypes.forEach((item) => urlParams.append(APIQuery.Type, item));
+    history.push({
+      pathname: pathname,
+      search: urlParams.toString(),
+    });
   };
 
   return (

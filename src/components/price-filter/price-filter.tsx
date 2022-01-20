@@ -1,13 +1,14 @@
 import { useState, ChangeEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PriceType } from '../../const';
-import { changePrice, setCurrentPage } from '../../store/action';
+import { useHistory, useLocation } from 'react-router-dom';
+import { APIQuery, PriceType } from '../../const';
+import { setCurrentPage } from '../../store/action';
 import { fetchPlaceholdersPriceAction } from '../../store/api-action';
-import { getMaxPrice, getMinPrice, getPlaceholderPriceMax, getPlaceholderPriceMin } from '../../store/filter/selectors';
+import { getPlaceholderPriceMax, getPlaceholderPriceMin } from '../../store/filter/selectors';
 
 type FieldProps = {
   placeholder: number | string | undefined,
-  value: string | null | undefined,
+  value: string | number,
 }
 
 type PriceState = {
@@ -16,10 +17,10 @@ type PriceState = {
 
 function PriceFilter(): JSX.Element {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const { search, pathname } = useLocation();
   const placeholderMin = useSelector(getPlaceholderPriceMin);
   const placeholderMax = useSelector(getPlaceholderPriceMax);
-  const minPrice = useSelector(getMinPrice);
-  const maxPrice = useSelector(getMaxPrice);
 
   const [localPriceState, setLocalPriceState] = useState<PriceState>({
     minPrice: {
@@ -31,6 +32,10 @@ function PriceFilter(): JSX.Element {
       value: '',
     },
   });
+
+  const urlParams = new URLSearchParams(search);
+  const minPrice = urlParams.get(APIQuery.MinPrice) ? Number(urlParams.get(APIQuery.MinPrice)) : '';
+  const maxPrice = urlParams.get(APIQuery.MaxPrice) ? Number(urlParams.get(APIQuery.MaxPrice)) : '';
 
   useEffect(() => {
     const query = {
@@ -70,6 +75,7 @@ function PriceFilter(): JSX.Element {
         },
       });
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [placeholderMax, placeholderMin, minPrice, maxPrice]);
 
   const handleChangePrice = ({target}: ChangeEvent<HTMLInputElement>) => {
@@ -85,23 +91,45 @@ function PriceFilter(): JSX.Element {
   };
 
   const handleBlurPrice = ({target}: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = target;
-    let correctedPrice: string | null = value;
+    const { name, value, dataset } = target;
+    let correctedPrice: string = value;
 
     if (Number(value) < Number(localPriceState.minPrice.placeholder) && name === 'minPrice') {
       correctedPrice = `${localPriceState.minPrice.placeholder}`;
+      urlParams.set(APIQuery.MinPrice, correctedPrice);
+      history.push({
+        pathname: pathname,
+        search: urlParams.toString(),
+      });
     }
 
     if (Number(value) > Number(localPriceState.maxPrice.placeholder) && name === 'maxPrice') {
       correctedPrice = `${localPriceState.maxPrice.placeholder}`;
+      urlParams.set(APIQuery.MaxPrice, correctedPrice);
+      history.push({
+        pathname: pathname,
+        search: urlParams.toString(),
+      });
     }
 
     if (Number(value) < Number(localPriceState.minPrice.placeholder) && name === 'maxPrice') {
       correctedPrice = `${localPriceState.maxPrice.placeholder}`;
+      urlParams.set(APIQuery.MaxPrice, correctedPrice);
+      history.push({
+        pathname: pathname,
+        search: urlParams.toString(),
+      });
     }
 
+    dispatch(setCurrentPage(1));
+
     if (value === '0' || !value.length) {
-      correctedPrice = null;
+      urlParams.delete(dataset.name ? dataset.name : '');
+      history.push({
+        pathname: pathname,
+        search: urlParams.toString(),
+      });
+      return;
     }
 
     setLocalPriceState({
@@ -112,15 +140,19 @@ function PriceFilter(): JSX.Element {
       },
     });
 
-    dispatch(setCurrentPage(1));
-    dispatch(changePrice(name, correctedPrice));
+    urlParams.set(dataset.name ? dataset.name : '', correctedPrice? correctedPrice : '');
+
+    history.push({
+      pathname: pathname,
+      search: urlParams.toString(),
+    });
   };
 
   return (
     <fieldset className="catalog-filter__block">
       <legend className="catalog-filter__block-title">Цена, ₽</legend>
       <div className="catalog-filter__price-range">
-        {Object.entries(PriceType).map(([range, {label, name}]) => (
+        {Object.entries(PriceType).map(([range, {label, name, query}]) => (
           <div className="form-input" key={range}>
             <label className="visually-hidden">{label}</label>
             <input
@@ -130,8 +162,10 @@ function PriceFilter(): JSX.Element {
               name={name}
               onChange={handleChangePrice}
               onBlur={handleBlurPrice}
-              value={`${localPriceState[name].value}`}
+              value={localPriceState[name].value}
+              // value={`${localPriceState[name].value}`}
               data-testid={name}
+              data-name={query}
             />
           </div>
         ))}

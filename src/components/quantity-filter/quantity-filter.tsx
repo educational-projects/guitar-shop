@@ -1,8 +1,8 @@
 import { ChangeEvent } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { GuitarType, NumberOfStringType } from '../../const';
-import { changeNumberOfString, setCurrentPage } from '../../store/action';
-import { getGuitarType, getNumberOfString } from '../../store/filter/selectors';
+import { useDispatch } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { APIQuery, GuitarType, NumberOfStringType } from '../../const';
+import { setCurrentPage } from '../../store/action';
 
 const getStringsFromType = (type: string): string[] => {
   switch (type) {
@@ -19,11 +19,14 @@ const getStringsFromType = (type: string): string[] => {
 
 function QuantityFilter(): JSX.Element {
   const dispatch = useDispatch();
-  const numberOfString = useSelector(getNumberOfString);
-  const guitarType = useSelector(getGuitarType);
+  const history = useHistory();
+  const { search, pathname } = useLocation();
+
+  const urlParams = new URLSearchParams(search);
+  const guitarType = urlParams.getAll(APIQuery.Type);
+  const numberOfString = urlParams.getAll(APIQuery.StringCount);
 
   const activeString = guitarType.map((type) => getStringsFromType(type)).flat();
-
   const uniqueActiveString = [...new Set(activeString)];
 
   const handleInputChange = ({target}: ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +37,15 @@ function QuantityFilter(): JSX.Element {
     index === -1 ? selectedNumberOfString.push(value) : selectedNumberOfString.splice(index, 1);
 
     dispatch(setCurrentPage(1));
-    dispatch(changeNumberOfString(selectedNumberOfString));
+
+    urlParams.delete(APIQuery.StringCount);
+
+    selectedNumberOfString.forEach((item) => urlParams.append(APIQuery.StringCount, item));
+
+    history.push({
+      pathname: pathname,
+      search: urlParams.toString(),
+    });
   };
 
   return (
