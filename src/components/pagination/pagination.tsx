@@ -24,7 +24,7 @@ function Pagination(): JSX.Element {
   const pageNumber = [];
 
   const PaginationButton = {
-    left: currentPage > 1 ? currentPage - 2 : currentPage - 1,
+    left: currentPage > 1 && currentPage === totalPages ? currentPage - 3 : currentPage - 2,
     right: currentPage > 1 ? currentPage + 1 : currentPage + 2,
   };
 
@@ -32,7 +32,15 @@ function Pagination(): JSX.Element {
     pageNumber.push(i);
   }
 
-  const handleButtonClick = ({target} : MouseEvent<HTMLAnchorElement>) => {
+  const handlePageClick = (evt: MouseEvent<HTMLAnchorElement>, number: number) => {
+    evt.preventDefault();
+
+    dispatch(setCurrentPage(number));
+  };
+
+  const handleButtonClick = (evt : MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+    const { target } = evt;
     if (target instanceof HTMLElement) {
       const {dataset} = target;
 
@@ -64,7 +72,7 @@ function Pagination(): JSX.Element {
           </li>
         )}
 
-        {pageNumber.slice(PaginationButton.left, PaginationButton.right).map((number) => {
+        {pageNumber.slice(PaginationButton.left < 0 ? 0 : PaginationButton.left, PaginationButton.right).map((number) => {
           const liClasses = cn ('pagination__page', {
             'pagination__page--active' :  currentPage === number,
           });
@@ -77,7 +85,7 @@ function Pagination(): JSX.Element {
               <Link
                 className="link pagination__page-link"
                 to={APPRoute.Catalog}
-                onClick={() => dispatch(setCurrentPage(number))}
+                onClick={(evt) => handlePageClick(evt, number)}
               >
                 {number}
               </Link>
@@ -85,7 +93,7 @@ function Pagination(): JSX.Element {
           );
         })}
 
-        {currentPage !== totalPages && (
+        {totalPages !== 0 && currentPage !== totalPages && (
           <li
             className="pagination__page pagination__page--next"
             id="next"
