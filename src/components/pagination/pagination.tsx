@@ -35,6 +35,9 @@ function Pagination(): JSX.Element {
   const handlePageClick = (evt: MouseEvent<HTMLAnchorElement>, number: number) => {
     evt.preventDefault();
 
+    window.scrollTo({
+      top: 200,
+    });
     dispatch(setCurrentPage(number));
   };
 
@@ -43,6 +46,10 @@ function Pagination(): JSX.Element {
     const { target } = evt;
     if (target instanceof HTMLElement) {
       const {dataset} = target;
+
+      window.scrollTo({
+        top: 200,
+      });
 
       if (dataset.name === ButtonText.Next) {
         dispatch(setCurrentPage(currentPage + PAGE_STEP));

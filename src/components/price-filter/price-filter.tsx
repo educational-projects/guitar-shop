@@ -37,6 +37,7 @@ function PriceFilter(): JSX.Element {
   const minPrice = urlParams.get(APIQuery.MinPrice) ? Number(urlParams.get(APIQuery.MinPrice)) : '';
   const maxPrice = urlParams.get(APIQuery.MaxPrice) ? Number(urlParams.get(APIQuery.MaxPrice)) : '';
 
+  // Получение минимального и максимального плейсхолдера
   useEffect(() => {
     const query = {
       _sort: 'price',
@@ -163,7 +164,6 @@ function PriceFilter(): JSX.Element {
               onChange={handleChangePrice}
               onBlur={handleBlurPrice}
               value={localPriceState[name].value}
-              // value={`${localPriceState[name].value}`}
               data-testid={name}
               data-name={query}
             />
