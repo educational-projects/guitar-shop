@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { ActionType } from '../types/action';
-import { Guitars } from '../types/guitar';
+import { Guitar, Guitars } from '../types/guitar';
 
 export const loadGuitarsRequest = createAction(ActionType.LoadGuitarsRequest);
 
@@ -52,3 +52,16 @@ export const setCurrentPage = createAction(
     },
   }),
 );
+
+export const loadGuitarRequest = createAction(ActionType.LoadGuitarRequest);
+
+export const loadGuitarSuccess = createAction(
+  ActionType.LoadGuitarSuccess,
+  (guitar: Guitar) => ({
+    payload: {
+      guitar,
+    },
+  }),
+);
+
+export const loadGuitarError = createAction(ActionType.LoadGuitarError);

@@ -86,3 +86,9 @@ export const NumberOfStringType = {
     label: '12',
   },
 } as const;
+
+export const RatingClass = {
+  Catalog: 'product-card__rate',
+  Product: 'product-container__rating',
+  Comment: 'review__rating-panel',
+};

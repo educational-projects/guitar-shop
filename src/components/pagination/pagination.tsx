@@ -7,6 +7,12 @@ import { setCurrentPage } from '../../store/action';
 import { getCurrentPage } from '../../store/pagination/selectors';
 import { getTotalGuitars } from '../../store/products/selectors';
 
+const getScrollPage = () => {
+  window.scrollTo({
+    top: 200,
+  });
+};
+
 const ButtonText = {
   Prev: 'Назад',
   Next: 'Далее',
@@ -35,9 +41,7 @@ function Pagination(): JSX.Element {
   const handlePageClick = (evt: MouseEvent<HTMLAnchorElement>, number: number) => {
     evt.preventDefault();
 
-    window.scrollTo({
-      top: 200,
-    });
+    getScrollPage();
     dispatch(setCurrentPage(number));
   };
 
@@ -47,9 +51,7 @@ function Pagination(): JSX.Element {
     if (target instanceof HTMLElement) {
       const {dataset} = target;
 
-      window.scrollTo({
-        top: 200,
-      });
+      getScrollPage();
 
       if (dataset.name === ButtonText.Next) {
         dispatch(setCurrentPage(currentPage + PAGE_STEP));

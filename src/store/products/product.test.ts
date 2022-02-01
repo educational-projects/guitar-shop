@@ -1,5 +1,5 @@
 import { makeFakeGuitar } from '../../utils/mock';
-import { loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest, loadSearchGuitarsSuccess, resetSearchGuitars } from '../action';
+import { loadGuitarError, loadGuitarRequest, loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadGuitarSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest, loadSearchGuitarsSuccess, resetSearchGuitars } from '../action';
 import { products } from './products';
 
 const state = {
@@ -10,6 +10,9 @@ const state = {
   searchGuitarsLoading: false,
   searchGuitarsError: false,
   searchGuitars: [],
+  guitarLoading: false,
+  guitar: null,
+  guitarError: false,
 };
 
 describe('Reducer: products', () => {
@@ -76,6 +79,33 @@ describe('Reducer: products', () => {
       .toEqual({
         ...state,
         searchGuitars: [],
+      });
+  });
+
+  it('should set the download status by starting the guitar download', () => {
+    expect(products(state, loadGuitarRequest()))
+      .toEqual({
+        ...state,
+        guitarLoading: true,
+      });
+  });
+
+  it('should update the download status by downloading the guitar', () => {
+    const guitar = makeFakeGuitar();
+    expect(products(state, loadGuitarSuccess(guitar)))
+      .toEqual({
+        ...state,
+        guitarLoading: false,
+        guitar: guitar,
+      });
+  });
+
+  it('the error status is expected to be set, in case of failure', () => {
+    expect(products(state, loadGuitarError()))
+      .toEqual({
+        ...state,
+        guitarLoading: false,
+        guitarError: true,
       });
   });
 });

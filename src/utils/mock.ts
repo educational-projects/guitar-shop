@@ -8,8 +8,8 @@ const numberOfString = ['4', '6', '7', '12'];
 export const makeFakeComment = (): Comment => ({
   id: faker.datatype.number().toString(),
   userName: faker.name.firstName(),
-  advantages: faker.lorem.paragraph(),
-  disadvantages: faker.lorem.paragraph(),
+  advantage: faker.lorem.paragraph(),
+  disadvantage: faker.lorem.paragraph(),
   comment: faker.lorem.paragraph(),
   rating: Math.floor(Math.random() * 6),
   createAt: faker.lorem.paragraph(),
@@ -38,6 +38,9 @@ export const makeFakeStore = (): State => ({
     searchGuitarsLoading: false,
     searchGuitarsError: false,
     searchGuitars: [],
+    guitarLoading: false,
+    guitar: null,
+    guitarError: false,
   },
   FILTER: {
     placeholderPriceMin : '',

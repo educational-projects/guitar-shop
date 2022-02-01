@@ -1,8 +1,10 @@
 import { APIRoute } from '../const';
 import { ThunkActionResult } from '../types/action';
-import { Guitars } from '../types/guitar';
+import { Guitar, Guitars } from '../types/guitar';
 import {
-  loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadPlaceholdersPriceError,
+  loadGuitarError,
+  loadGuitarRequest,
+  loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadGuitarSuccess, loadPlaceholdersPriceError,
   loadPlaceholdersPriceRequest, loadPlaceholdersPriceSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest, loadSearchGuitarsSuccess
 } from './action';
 
@@ -40,6 +42,19 @@ export const fetchSearchGuitarsAction = (query = {}): ThunkActionResult => (
       dispatch(loadSearchGuitarsSuccess(data));
     } catch {
       dispatch(loadSearchGuitarsError());
+    }
+  }
+);
+
+export const fetchGuitarAction = (id: string): ThunkActionResult => (
+  async (dispatch, _getState, api ) => {
+    const baseUrl = `${APIRoute.Guitars}/${id}?_embed=comments`;
+    dispatch(loadGuitarRequest());
+    try {
+      const {data} = await api.get<Guitar>(baseUrl);
+      dispatch(loadGuitarSuccess(data));
+    } catch {
+      dispatch(loadGuitarError());
     }
   }
 );

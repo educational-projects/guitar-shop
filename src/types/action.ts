@@ -15,6 +15,9 @@ export enum ActionType {
   LoadSearchGuitarsSuccess = 'data/loadSearchGuitarsSuccess',
   LoadSearchGuitarsError = 'data/loadSearchGuitarsError',
   ResetSearchGuitars = 'app/resetSearchGuitars',
+  LoadGuitarRequest = 'data/loadGuitarRequest',
+  LoadGuitarSuccess = 'data/loadGuitarSuccess',
+  LoadGuitarError = 'data/loadGuitarError',
 }
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

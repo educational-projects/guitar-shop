@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { ProductsState } from '../../types/state';
-import { loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest, loadSearchGuitarsSuccess, resetSearchGuitars } from '../action';
+import { loadGuitarError, loadGuitarRequest, loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadGuitarSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest, loadSearchGuitarsSuccess, resetSearchGuitars } from '../action';
 
 const initialState: ProductsState = {
   guitarsLoading: false,
@@ -10,6 +10,9 @@ const initialState: ProductsState = {
   searchGuitarsLoading: false,
   searchGuitarsError: false,
   searchGuitars: [],
+  guitarLoading: false,
+  guitar: null,
+  guitarError: false,
 };
 
 const products = createReducer(initialState, (builder) => {
@@ -41,6 +44,18 @@ const products = createReducer(initialState, (builder) => {
     })
     .addCase(resetSearchGuitars, (state) => {
       state.searchGuitars = [];
+    })
+    .addCase(loadGuitarRequest, (state) => {
+      state.guitarLoading = true;
+    })
+    .addCase(loadGuitarSuccess, (state, action) => {
+      const {guitar} = action.payload;
+      state.guitar = guitar;
+      state.guitarLoading = false;
+    })
+    .addCase(loadGuitarError, (state) => {
+      state.guitarError = true;
+      state.guitarLoading = false;
     });
 });
 

@@ -1,5 +1,5 @@
 import { RootState } from '../store/root-reducer';
-import { Guitars } from './guitar';
+import { Guitar, Guitars } from './guitar';
 
 export type ProductsState = {
   guitarsLoading: boolean,
@@ -9,6 +9,9 @@ export type ProductsState = {
   searchGuitarsLoading: boolean,
   searchGuitarsError: boolean,
   searchGuitars: Guitars,
+  guitarLoading: boolean,
+  guitar: null | Guitar,
+  guitarError: boolean,
 }
 
 export type PaginationState = {

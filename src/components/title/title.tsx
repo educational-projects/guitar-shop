@@ -1,5 +1,5 @@
 type TitleProps = {
-  title: string,
+  title: string | undefined,
 }
 
 function Title({title}: TitleProps): JSX.Element {
