@@ -1,18 +1,11 @@
-const formaPrice = (
-  function() {
-    const r = /(\d{3})/g;
-    return function(text: string) {
-      return text.split('').reverse().join('').replace(r, '$1 ').split('').reverse().join('');
-    };
-  }
-)();
+import { getFormatPrice } from '../../utils';
 
 type PriceProps = {
   price: number,
 }
 
 function Price({price}: PriceProps): JSX.Element | null {
-  const formattedPrice = formaPrice(price.toString());
+  const formattedPrice = getFormatPrice(price.toString());
 
   return (
     <div className="product-container__price-wrapper">

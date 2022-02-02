@@ -1,17 +1,20 @@
 import Rating from '../../../../components/rating/rating';
 import { RatingClass } from '../../../../const';
 import { Comment } from '../../../../types/guitar';
+import { getFormatDate } from '../../utils';
 
 type UserCommentProps = {
   currentComment: Comment,
 }
 
 function UserComment({currentComment}: UserCommentProps): JSX.Element {
-  const {advantage, comment, disadvantage, userName, rating} = currentComment;
+  const {advantage, comment, disadvantage, userName, rating, createAt} = currentComment;
+  const formattedCreateAt = getFormatDate(createAt, 'DD MMMM');
+
   return (
     <div className="review">
       <div className="review__wrapper">
-        <h4 className="review__title review__title--author title title--lesser">{userName}</h4><span className="review__date">12 декабря</span>
+        <h4 className="review__title review__title--author title title--lesser">{userName}</h4><span className="review__date">{formattedCreateAt}</span>
       </div>
       <Rating
         rating={rating}
