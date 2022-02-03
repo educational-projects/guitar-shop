@@ -26,10 +26,19 @@ function Comments({comments}: CommentsProps): JSX.Element {
     setCommentCount((prevState) => prevState + countStep);
   };
 
+  const handleNewCommentClick = (evt: MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+  };
+
   return (
     <section className="reviews">
       <h3 className="reviews__title title title--bigger">Отзывы</h3>
-      <Link className="button button--red-border button--big reviews__sumbit-button" to="/">Оставить отзыв</Link>
+      <Link
+        className="button button--red-border button--big reviews__sumbit-button"
+        to="#"
+        onClick={handleNewCommentClick}
+      >Оставить отзыв
+      </Link>
       {sortedComments.map((comment) => (
         <UserComment
           key={comment.id}
