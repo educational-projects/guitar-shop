@@ -4,7 +4,8 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { State } from './state';
 
 export enum ActionType {
-  SetCurrentPage = 'usest/setCurrentPage',
+  SetCurrentPage = 'user/setCurrentPage',
+  SetModalStatus = 'user/setModalStatus',
   LoadGuitarsRequest = 'data/loadGuitarsRequest',
   LoadGuitarsSuccess = 'data/loadGuitarsSuccess',
   LoadGuitarsError = 'data/loadGuitarsError',

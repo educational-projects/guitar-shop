@@ -92,3 +92,7 @@ export const RatingClass = {
   Product: 'product-container__rating',
   Comment: 'review__rating-panel',
 };
+
+export const KeyCode = {
+  Esc: 'Escape',
+} as const;

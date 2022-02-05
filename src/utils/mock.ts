@@ -49,4 +49,7 @@ export const makeFakeStore = (): State => ({
   PAGINATION: {
     currentPage: 1,
   },
+  MODAL: {
+    openModal: false,
+  },
 });

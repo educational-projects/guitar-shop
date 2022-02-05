@@ -1,5 +1,7 @@
 import { MouseEvent, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { setModalStatus } from '../../../../store/action';
 import { Comment } from '../../../../types/guitar';
 import { getScrollPage } from '../../../../utils/utils';
 import { getSortedUpDays } from '../../utils';
@@ -12,13 +14,14 @@ type CommentsProps = {
 const countStep = 3;
 
 function Comments({comments}: CommentsProps): JSX.Element {
+  const dispatch = useDispatch();
+
   const [commentCount, setCommentCount] = useState<number>(3);
 
   const sortedComments = useMemo(() => getSortedUpDays(comments), [comments]).slice(0, commentCount);
 
   const handleGoTopClick = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
-
     getScrollPage(0);
   };
 
@@ -28,6 +31,7 @@ function Comments({comments}: CommentsProps): JSX.Element {
 
   const handleNewCommentClick = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
+    dispatch(setModalStatus(true));
   };
 
   return (

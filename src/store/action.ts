@@ -65,3 +65,12 @@ export const loadGuitarSuccess = createAction(
 );
 
 export const loadGuitarError = createAction(ActionType.LoadGuitarError);
+
+export const setModalStatus = createAction(
+  ActionType.SetModalStatus,
+  (status: boolean) => ({
+    payload: {
+      status,
+    },
+  }),
+);

@@ -23,4 +23,8 @@ export type FilterState = {
   placeholderPriceMax? : string | number | undefined,
 }
 
+export type ModalState = {
+  openModal: boolean
+}
+
 export type State = RootState
