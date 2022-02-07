@@ -5,16 +5,17 @@ import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import Modal from '../../components/modal/modal';
 import Title from '../../components/title/title';
-import { setModalStatus } from '../../store/action';
+import { resetCommentPostStatus, setModalStatus } from '../../store/action';
 import { fetchGuitarAction } from '../../store/api-action';
 import { getModalStatus } from '../../store/modal/selectors';
-import { getGuitar, getGuitarError, getGuitarLoading } from '../../store/products/selectors';
+import { getCommentPostStatus, getGuitar, getGuitarError, getGuitarLoading } from '../../store/products/selectors';
 import Loading from '../loading/loading';
 import NotFound from '../not-found/not-found';
 import Breadcrumbs from './components/breadcrumbs/breadcrumbs';
 import Comments from './components/comments/comments';
 import NewComment from './components/new-comment/new-comment';
 import ProductInfo from './components/product-info/product-info';
+import SuccessReview from './components/success-review/success-review';
 
 function Product(): JSX.Element {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ function Product(): JSX.Element {
   const guitarError = useSelector(getGuitarError);
   const guitarLoading = useSelector(getGuitarLoading);
   const openModal = useSelector(getModalStatus);
+  const commentPostStatus = useSelector(getCommentPostStatus);
 
   //Получения товара
   useEffect(() => {
@@ -50,8 +52,12 @@ function Product(): JSX.Element {
       </main>
       <Footer/>
       {openModal && (
-        <Modal onClose={() => dispatch(setModalStatus(false))}>
-          <NewComment/>
+        <Modal onClose={() => {
+          dispatch(setModalStatus(false));
+          dispatch(resetCommentPostStatus());
+        }}
+        >
+          {!commentPostStatus ? <NewComment/> : <SuccessReview/>}
         </Modal>
       )}
     </div>

@@ -1,5 +1,6 @@
-import { FormEvent } from 'react';
+import { FormEvent, useState, ChangeEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { setModalStatus } from '../../../../store/action';
 import { sendCommentsAction } from '../../../../store/api-action';
 import { getGuitar } from '../../../../store/products/selectors';
@@ -9,6 +10,25 @@ import RatingStar from './components/rating-star/rating-star';
 function NewComment(): JSX.Element {
   const dispatch = useDispatch();
   const guitar = useSelector(getGuitar);
+  const {id} = useParams<{id: string}>();
+
+  const [formState, setFormState] = useState<{ [key: string]: string }>({
+    userName: '',
+    advantage: '',
+    disadvantage: '',
+    comment: '',
+    rating: '0',
+    guitarId: id,
+  });
+
+  const handleChangeForm = ({target}: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const {name, value} = target;
+
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
 
   const handleButtonClick = () => {
     dispatch(setModalStatus(false));
@@ -16,8 +36,18 @@ function NewComment(): JSX.Element {
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    dispatch(sendCommentsAction());
+    const data = {
+      userName: formState.userName,
+      advantage: formState.advantage,
+      disadvantage: formState.disadvantage,
+      comment: formState.comment,
+      rating: Number(formState.rating),
+      guitarId: Number(formState.guitarId),
+    };
+    dispatch(sendCommentsAction(data));
   };
+
+  const disabled = !formState.userName || formState.rating === '0';
 
   return (
     <>
@@ -30,29 +60,73 @@ function NewComment(): JSX.Element {
         <div className="form-review__wrapper">
           <div className="form-review__name-wrapper">
             <label className="form-review__label form-review__label--required" htmlFor="user-name">Ваше Имя</label>
-            <input className="form-review__input form-review__input--name" id="user-name" type="text" autoComplete="off" />
-            <span className="form-review__warning">Заполните поле</span>
+            <input
+              className="form-review__input form-review__input--name"
+              id="user-name"
+              name='userName'
+              type="text"
+              value={formState.userName}
+              autoComplete="off"
+              onChange={handleChangeForm}
+            />
+            {formState.userName === '' && (
+              <span className="form-review__warning">Заполните поле</span>
+            )}
           </div>
           <div>
             <span className="form-review__label form-review__label--required">Ваша Оценка</span>
             <div className="rate rate--reverse">
               {Object.keys(RatingType).reverse().map((number) => (
-                <RatingStar number={number} key={number}/>
+                <RatingStar
+                  number={number}
+                  key={number}
+                  value={formState.rating}
+                  onChange={handleChangeForm}
+                />
               ))}
               <span className="rate__count"></span>
-              <span className="rate__message">Поставьте оценку</span>
+              {formState.rating === '0' && (
+                <span className="rate__message">Поставьте оценку</span>
+              )}
             </div>
           </div>
         </div>
         <label className="form-review__label" htmlFor="user-name">Достоинства</label>
-        <input className="form-review__input" id="pros" type="text" autoComplete="off" />
+        <input
+          className="form-review__input"
+          id="pros" type="text"
+          name="advantage"
+          autoComplete="off"
+          value={formState.advantage}
+          onChange={handleChangeForm}
+          required
+        />
         <label className="form-review__label" htmlFor="user-name">Недостатки</label>
-        <input className="form-review__input" id="user-name" type="text" autoComplete="off" />
+        <input
+          className="form-review__input"
+          id="user-name" type="text"
+          name="disadvantage"
+          autoComplete="off"
+          value={formState.disadvantage}
+          onChange={handleChangeForm}
+          required
+        />
         <label className="form-review__label" htmlFor="user-name">Комментарий</label>
-        <textarea className="form-review__input form-review__input--textarea" id="user-name" rows={10} autoComplete="off"></textarea>
+        <textarea
+          className="form-review__input form-review__input--textarea"
+          name="comment"
+          id="user-name"
+          rows={10}
+          autoComplete="off"
+          value={formState.comment}
+          onChange={handleChangeForm}
+          required
+        >
+        </textarea>
         <button
           className="button button--medium-20 form-review__button"
           type="submit"
+          disabled={disabled}
         >
           Отправить отзыв
         </button>

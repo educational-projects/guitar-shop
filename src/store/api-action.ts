@@ -1,12 +1,13 @@
 import { toast } from 'react-toastify';
 import { APIRoute, FailMessage } from '../const';
 import { ThunkActionResult } from '../types/action';
-import { Guitar, Guitars } from '../types/guitar';
+import { Comment, CommentPost, Guitar, Guitars } from '../types/guitar';
 import {
   loadGuitarError,
   loadGuitarRequest,
   loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadGuitarSuccess, loadPlaceholdersPriceError,
-  loadPlaceholdersPriceRequest, loadPlaceholdersPriceSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest, loadSearchGuitarsSuccess
+  loadPlaceholdersPriceRequest, loadPlaceholdersPriceSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest,
+  loadSearchGuitarsSuccess, sendCommentError, sendCommentRequest, sendCommentSuccess
 } from './action';
 
 export const fetchGuitarsAction = (query = {}): ThunkActionResult => (
@@ -60,15 +61,15 @@ export const fetchGuitarAction = (id: string): ThunkActionResult => (
   }
 );
 
-export const sendCommentsAction = (): ThunkActionResult => (
+export const sendCommentsAction = (userComment: CommentPost): ThunkActionResult => (
   async (dispatch, _getState, api) => {
-    // dispatch();
+    dispatch(sendCommentRequest());
     try {
-      const {data} = await api.post<Comment>(APIRoute.Comment);
-      console.log(data);
+      const {data} = await api.post<Comment>(APIRoute.Comment, userComment);
+      dispatch(sendCommentSuccess(data));
     } catch {
+      dispatch(sendCommentError());
       toast.error(FailMessage.PostComment);
-      // dispatch();
     }
   }
 );

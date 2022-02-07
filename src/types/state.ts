@@ -12,6 +12,8 @@ export type ProductsState = {
   guitarLoading: boolean,
   guitar: null | Guitar,
   guitarError: boolean,
+  sendCommentLoading: boolean,
+  commentPostStatus: boolean,
 }
 
 export type PaginationState = {

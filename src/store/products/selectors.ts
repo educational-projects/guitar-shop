@@ -10,3 +10,4 @@ export const getTotalGuitars = (state: State): number => state[NameSpace.Product
 export const getGuitarLoading = (state: State): boolean => state[NameSpace.Products].guitarLoading;
 export const getGuitarError = (state: State): boolean => state[NameSpace.Products].guitarError;
 export const getGuitar = (state: State): Guitar | null => state[NameSpace.Products].guitar;
+export const getCommentPostStatus = (state: State): boolean => state[NameSpace.Products].commentPostStatus;

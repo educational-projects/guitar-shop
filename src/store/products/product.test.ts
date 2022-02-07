@@ -13,6 +13,8 @@ const state = {
   guitarLoading: false,
   guitar: null,
   guitarError: false,
+  sendCommentLoading: false,
+  commentPostStatus: false,
 };
 
 describe('Reducer: products', () => {

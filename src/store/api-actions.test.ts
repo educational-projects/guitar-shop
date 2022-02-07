@@ -5,9 +5,10 @@ import { configureMockStore } from '@jedmao/redux-mock-store';
 import { State } from '../types/state';
 import { Action } from 'redux';
 import { APIRoute } from '../const';
-import { makeFakeGuitar } from '../utils/mock';
-import { fetchGuitarsAction, fetchPlaceholdersPriceAction } from './api-action';
-import { loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadPlaceholdersPriceSuccess, loadPlaceholdersPriceRequest, loadPlaceholdersPriceError } from './action';
+import { makeFakeComment, makeFakeGuitar } from '../utils/mock';
+import { fetchGuitarsAction, fetchPlaceholdersPriceAction, sendCommentsAction } from './api-action';
+import { loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadPlaceholdersPriceSuccess, loadPlaceholdersPriceRequest, loadPlaceholdersPriceError, sendCommentRequest, sendCommentSuccess } from './action';
+import { CommentPost } from '../types/guitar';
 
 describe('Async offers data actions', () => {
   const api = createApi();
@@ -86,6 +87,33 @@ describe('Async offers data actions', () => {
     expect(store.getActions()).toEqual([
       loadGuitarsRequest(),
       loadGuitarsError(),
+    ]);
+  });
+
+  it('should return comment when server return 200', async () => {
+    const store = mockStore();
+    const comment = makeFakeComment();
+
+    const fakePostComment: CommentPost = {
+      userName: 'test',
+      advantage: 'best',
+      disadvantage: 'good',
+      comment: 'best',
+      rating: 4,
+      guitarId: 5,
+    };
+
+    mockAPI
+      .onPost(APIRoute.Comment)
+      .reply(200, comment);
+
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(sendCommentsAction(fakePostComment));
+
+    expect(store.getActions()).toEqual([
+      sendCommentRequest(),
+      sendCommentSuccess(comment),
     ]);
   });
 });

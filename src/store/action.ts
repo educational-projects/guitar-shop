@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { ActionType } from '../types/action';
-import { Guitar, Guitars } from '../types/guitar';
+import { Comment, Guitar, Guitars } from '../types/guitar';
 
 export const loadGuitarsRequest = createAction(ActionType.LoadGuitarsRequest);
 
@@ -74,3 +74,18 @@ export const setModalStatus = createAction(
     },
   }),
 );
+
+export const sendCommentRequest = createAction(ActionType.SendCommentRequest);
+
+export const sendCommentSuccess = createAction(
+  ActionType.SendCommentSuccess,
+  (comment: Comment) => ({
+    payload: {
+      comment,
+    },
+  }),
+);
+
+export const sendCommentError = createAction(ActionType.SendCommentError);
+
+export const resetCommentPostStatus = createAction(ActionType.ResetCommentPostStatus);

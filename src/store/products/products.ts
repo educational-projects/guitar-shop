@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { ProductsState } from '../../types/state';
-import { loadGuitarError, loadGuitarRequest, loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadGuitarSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest, loadSearchGuitarsSuccess, resetSearchGuitars } from '../action';
+import { loadGuitarError, loadGuitarRequest, loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadGuitarSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest, loadSearchGuitarsSuccess, resetCommentPostStatus, resetSearchGuitars, sendCommentError, sendCommentRequest, sendCommentSuccess } from '../action';
 
 const initialState: ProductsState = {
   guitarsLoading: false,
@@ -13,6 +13,8 @@ const initialState: ProductsState = {
   guitarLoading: false,
   guitar: null,
   guitarError: false,
+  sendCommentLoading: false,
+  commentPostStatus: false,
 };
 
 const products = createReducer(initialState, (builder) => {
@@ -56,6 +58,24 @@ const products = createReducer(initialState, (builder) => {
     .addCase(loadGuitarError, (state) => {
       state.guitarError = true;
       state.guitarLoading = false;
+    })
+    .addCase(sendCommentRequest, (state) => {
+      state.sendCommentLoading = true;
+    })
+    .addCase(sendCommentSuccess, (state, action) => {
+      const {comment} = action.payload;
+      state.sendCommentLoading = false;
+      state.commentPostStatus = true;
+
+      if (state.guitar) {
+        state.guitar.comments = [comment, ...state.guitar.comments];
+      }
+    })
+    .addCase(sendCommentError, (state) => {
+      state.sendCommentLoading = false;
+    })
+    .addCase(resetCommentPostStatus, (state) => {
+      state.commentPostStatus = false;
     });
 });
 
