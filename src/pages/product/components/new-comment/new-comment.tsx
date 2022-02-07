@@ -1,5 +1,7 @@
+import { FormEvent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setModalStatus } from '../../../../store/action';
+import { sendCommentsAction } from '../../../../store/api-action';
 import { getGuitar } from '../../../../store/products/selectors';
 import { RatingType } from '../../const';
 import RatingStar from './components/rating-star/rating-star';
@@ -12,11 +14,19 @@ function NewComment(): JSX.Element {
     dispatch(setModalStatus(false));
   };
 
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(sendCommentsAction());
+  };
+
   return (
     <>
       <h2 className="modal__header modal__header--review title title--medium">Оставить отзыв</h2>
       <h3 className="modal__product-name title title--medium-20 title--uppercase">{guitar?.name}</h3>
-      <form className="form-review">
+      <form
+        className="form-review"
+        onSubmit={handleFormSubmit}
+      >
         <div className="form-review__wrapper">
           <div className="form-review__name-wrapper">
             <label className="form-review__label form-review__label--required" htmlFor="user-name">Ваше Имя</label>
@@ -40,7 +50,12 @@ function NewComment(): JSX.Element {
         <input className="form-review__input" id="user-name" type="text" autoComplete="off" />
         <label className="form-review__label" htmlFor="user-name">Комментарий</label>
         <textarea className="form-review__input form-review__input--textarea" id="user-name" rows={10} autoComplete="off"></textarea>
-        <button className="button button--medium-20 form-review__button" type="submit">Отправить отзыв</button>
+        <button
+          className="button button--medium-20 form-review__button"
+          type="submit"
+        >
+          Отправить отзыв
+        </button>
       </form>
       <button
         className="modal__close-btn button-cross"

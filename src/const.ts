@@ -8,6 +8,7 @@ export enum APPRoute {
 
 export enum APIRoute {
   Guitars = '/guitars',
+  Comment = '/comments'
 }
 
 export enum APIQuery {
@@ -96,3 +97,7 @@ export const RatingClass = {
 export const KeyCode = {
   Esc: 'Escape',
 } as const;
+
+export const FailMessage = {
+  PostComment: 'не удалось отправить комментарий',
+};

@@ -1,4 +1,5 @@
-import { APIRoute } from '../const';
+import { toast } from 'react-toastify';
+import { APIRoute, FailMessage } from '../const';
 import { ThunkActionResult } from '../types/action';
 import { Guitar, Guitars } from '../types/guitar';
 import {
@@ -55,6 +56,19 @@ export const fetchGuitarAction = (id: string): ThunkActionResult => (
       dispatch(loadGuitarSuccess(data));
     } catch {
       dispatch(loadGuitarError());
+    }
+  }
+);
+
+export const sendCommentsAction = (): ThunkActionResult => (
+  async (dispatch, _getState, api) => {
+    // dispatch();
+    try {
+      const {data} = await api.post<Comment>(APIRoute.Comment);
+      console.log(data);
+    } catch {
+      toast.error(FailMessage.PostComment);
+      // dispatch();
     }
   }
 );
