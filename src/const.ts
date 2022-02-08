@@ -100,4 +100,9 @@ export const KeyCode = {
 
 export const FailMessage = {
   PostComment: 'не удалось отправить комментарий',
+} as const;
+
+export const ModalClass = {
+  NewComment: 'modal--review',
+  CommentSuccess: 'modal--success',
 };

@@ -18,6 +18,7 @@ function SuccessReview(): JSX.Element {
       <div className="modal__button-container modal__button-container--review">
         <button
           className="button button--small modal__button modal__button--review"
+          data-testid="success-close-button"
           onClick={handleButtonClick}
         >
                К покупкам!

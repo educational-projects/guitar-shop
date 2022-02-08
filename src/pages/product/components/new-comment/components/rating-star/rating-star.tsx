@@ -18,6 +18,7 @@ function RatingStar({number, value, onChange}:RatingStarProps): JSX.Element {
         value={number}
         onChange={onChange}
         checked={number === value}
+        data-testid={number}
       />
       <label className="rate__label" htmlFor={`star-${number}`} title={RatingType[number]}></label>
     </>

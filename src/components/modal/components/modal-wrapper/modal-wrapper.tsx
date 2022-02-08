@@ -1,13 +1,31 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
+import { KeyCode } from '../../../../const';
 
 type ModalWrapperType = {
   children: ReactNode,
   onClose: () => void,
+  className?: string,
 }
 
-function ModalWrapper({children, onClose}: ModalWrapperType): JSX.Element {
+function ModalWrapper({children, onClose, className}: ModalWrapperType): JSX.Element {
+  const wrapperClass = `modal is-active modal-for-ui-kit ${className}`;
+
+  useEffect(() => {
+    const handleEscKeyDown = (evt: KeyboardEvent) => {
+      if (evt.key === KeyCode.Esc) {
+        onClose();
+      }
+    };
+
+    window.addEventListener('keydown', handleEscKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleEscKeyDown);
+    };
+  }, [onClose]);
+
   return (
-    <div className="modal is-active modal-for-ui-kit">
+    <div className={wrapperClass}>
       <div className="modal__wrapper">
         <div className="modal__overlay" data-close-modal onClick={onClose}></div>
         <div className="modal__content">

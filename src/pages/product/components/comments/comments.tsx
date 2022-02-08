@@ -41,7 +41,8 @@ function Comments({comments}: CommentsProps): JSX.Element {
         className="button button--red-border button--big reviews__sumbit-button"
         to="#"
         onClick={handleNewCommentClick}
-      >Оставить отзыв
+      >
+        Оставить отзыв
       </Link>
       {sortedComments.map((comment) => (
         <UserComment

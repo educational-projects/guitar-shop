@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { setModalStatus } from '../../../../store/action';
 import { sendCommentsAction } from '../../../../store/api-action';
-import { getGuitar } from '../../../../store/products/selectors';
+import { getGuitar, getSendCommentLoading } from '../../../../store/products/selectors';
 import { RatingType } from '../../const';
 import RatingStar from './components/rating-star/rating-star';
 
 function NewComment(): JSX.Element {
   const dispatch = useDispatch();
   const guitar = useSelector(getGuitar);
+  const sendCommentLoading = useSelector(getSendCommentLoading);
   const {id} = useParams<{id: string}>();
 
   const [formState, setFormState] = useState<{ [key: string]: string }>({
@@ -47,7 +48,7 @@ function NewComment(): JSX.Element {
     dispatch(sendCommentsAction(data));
   };
 
-  const disabled = !formState.userName || formState.rating === '0';
+  const disabled = !formState.userName || formState.rating === '0' || sendCommentLoading;
 
   return (
     <>
@@ -68,6 +69,7 @@ function NewComment(): JSX.Element {
               value={formState.userName}
               autoComplete="off"
               onChange={handleChangeForm}
+              data-testid="userName"
             />
             {formState.userName === '' && (
               <span className="form-review__warning">Заполните поле</span>
@@ -100,6 +102,7 @@ function NewComment(): JSX.Element {
           value={formState.advantage}
           onChange={handleChangeForm}
           required
+          data-testid="advantage"
         />
         <label className="form-review__label" htmlFor="user-name">Недостатки</label>
         <input
@@ -109,6 +112,7 @@ function NewComment(): JSX.Element {
           autoComplete="off"
           value={formState.disadvantage}
           onChange={handleChangeForm}
+          data-testid="disadvantage"
           required
         />
         <label className="form-review__label" htmlFor="user-name">Комментарий</label>
@@ -120,6 +124,7 @@ function NewComment(): JSX.Element {
           autoComplete="off"
           value={formState.comment}
           onChange={handleChangeForm}
+          data-testid="comment"
           required
         >
         </textarea>
@@ -127,6 +132,7 @@ function NewComment(): JSX.Element {
           className="button button--medium-20 form-review__button"
           type="submit"
           disabled={disabled}
+          data-testid="submitt"
         >
           Отправить отзыв
         </button>

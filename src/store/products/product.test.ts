@@ -1,5 +1,9 @@
-import { makeFakeGuitar } from '../../utils/mock';
-import { loadGuitarError, loadGuitarRequest, loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadGuitarSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest, loadSearchGuitarsSuccess, resetSearchGuitars } from '../action';
+import { makeFakeComment, makeFakeGuitar } from '../../utils/mock';
+import {
+  loadGuitarError, loadGuitarRequest, loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess,
+  loadGuitarSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest, loadSearchGuitarsSuccess,
+  resetSearchGuitars, sendCommentError, sendCommentRequest, sendCommentSuccess, resetCommentPostStatus
+} from '../action';
 import { products } from './products';
 
 const state = {
@@ -108,6 +112,39 @@ describe('Reducer: products', () => {
         ...state,
         guitarLoading: false,
         guitarError: true,
+      });
+  });
+
+  it('should upload status is expected to change when a comment is sent', () => {
+    expect(products(state, sendCommentRequest()))
+      .toEqual({
+        ...state,
+        sendCommentLoading: true,
+      });
+  });
+
+  it('should upload status is expected to change and comments will be updated when the comment is sent successfully', () => {
+    const fakeComment = makeFakeComment();
+    expect(products(state, sendCommentSuccess(fakeComment)))
+      .toEqual({
+        ...state,
+        sendCommentLoading: false,
+        commentPostStatus: true,
+      });
+  });
+
+  it('should expected that the error status will change after the failure to send a comment', () => {
+    expect(products(state, sendCommentError()))
+      .toEqual({
+        ...state,
+        sendCommentLoading: false,
+      });
+  });
+  it('should reset the status of the sent comment', () => {
+    expect(products(state, resetCommentPostStatus()))
+      .toEqual({
+        ...state,
+        commentPostStatus: false,
       });
   });
 });

@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
+import ModalWrapper from '../../components/modal/components/modal-wrapper/modal-wrapper';
 import Modal from '../../components/modal/modal';
 import Title from '../../components/title/title';
+import { ModalClass } from '../../const';
 import { resetCommentPostStatus, setModalStatus } from '../../store/action';
 import { fetchGuitarAction } from '../../store/api-action';
 import { getModalStatus } from '../../store/modal/selectors';
@@ -51,13 +53,30 @@ function Product(): JSX.Element {
         </div>
       </main>
       <Footer/>
-      {openModal && (
-        <Modal onClose={() => {
-          dispatch(setModalStatus(false));
-          dispatch(resetCommentPostStatus());
-        }}
-        >
-          {!commentPostStatus ? <NewComment/> : <SuccessReview/>}
+      {openModal && !commentPostStatus && (
+        <Modal>
+          <ModalWrapper
+            onClose={() => {
+              dispatch(setModalStatus(false));
+              dispatch(resetCommentPostStatus());
+            }}
+            className={ModalClass.NewComment}
+          >
+            <NewComment/>
+          </ModalWrapper>
+        </Modal>
+      )}
+      {openModal && commentPostStatus && (
+        <Modal>
+          <ModalWrapper
+            onClose={() => {
+              dispatch(setModalStatus(false));
+              dispatch(resetCommentPostStatus());
+            }}
+            className={ModalClass.CommentSuccess}
+          >
+            <SuccessReview/>
+          </ModalWrapper>
         </Modal>
       )}
     </div>
