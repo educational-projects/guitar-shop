@@ -89,3 +89,5 @@ export const sendCommentSuccess = createAction(
 export const sendCommentError = createAction(ActionType.SendCommentError);
 
 export const resetCommentPostStatus = createAction(ActionType.ResetCommentPostStatus);
+
+export const resetProduct = createAction(ActionType.ResetProduct);

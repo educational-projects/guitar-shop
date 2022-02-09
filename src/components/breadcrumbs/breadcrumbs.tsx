@@ -10,9 +10,7 @@ function Breadcrumbs(): JSX.Element {
         </Link>
       </li>
       <li className="breadcrumbs__item">
-        <a className="link" href="/">
           Каталог
-        </a>
       </li>
     </ul>
   );

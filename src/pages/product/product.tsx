@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Footer from '../../components/footer/footer';
@@ -7,7 +7,7 @@ import ModalWrapper from '../../components/modal/components/modal-wrapper/modal-
 import Modal from '../../components/modal/modal';
 import Title from '../../components/title/title';
 import { ModalClass } from '../../const';
-import { resetCommentPostStatus, setModalStatus } from '../../store/action';
+import { resetCommentPostStatus, resetProduct, setModalStatus } from '../../store/action';
 import { fetchGuitarAction } from '../../store/api-action';
 import { getModalStatus } from '../../store/modal/selectors';
 import { getCommentPostStatus, getGuitar, getGuitarError, getGuitarLoading } from '../../store/products/selectors';
@@ -28,10 +28,16 @@ function Product(): JSX.Element {
   const openModal = useSelector(getModalStatus);
   const commentPostStatus = useSelector(getCommentPostStatus);
 
+  const onPageUnload = useCallback(() => {
+    dispatch(resetProduct());
+  }, [dispatch]);
+
   //Получения товара
   useEffect(() => {
     dispatch(fetchGuitarAction(id));
-  }, [dispatch, id]);
+
+    return () => onPageUnload();
+  }, [dispatch, id, onPageUnload]);
 
   if (guitarLoading) {
     return <Loading/>;

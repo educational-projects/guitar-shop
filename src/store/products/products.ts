@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { ProductsState } from '../../types/state';
-import { loadGuitarError, loadGuitarRequest, loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadGuitarSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest, loadSearchGuitarsSuccess, resetCommentPostStatus, resetSearchGuitars, sendCommentError, sendCommentRequest, sendCommentSuccess } from '../action';
+import { loadGuitarError, loadGuitarRequest, loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadGuitarSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest, loadSearchGuitarsSuccess, resetCommentPostStatus, resetProduct, resetSearchGuitars, sendCommentError, sendCommentRequest, sendCommentSuccess } from '../action';
 
 const initialState: ProductsState = {
   guitarsLoading: false,
@@ -76,6 +76,10 @@ const products = createReducer(initialState, (builder) => {
     })
     .addCase(resetCommentPostStatus, (state) => {
       state.commentPostStatus = false;
+    })
+    .addCase(resetProduct, (state) => {
+      state.guitar = null;
+      state.guitarError = false;
     });
 });
 

@@ -2,7 +2,7 @@ import { makeFakeComment, makeFakeGuitar } from '../../utils/mock';
 import {
   loadGuitarError, loadGuitarRequest, loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess,
   loadGuitarSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest, loadSearchGuitarsSuccess,
-  resetSearchGuitars, sendCommentError, sendCommentRequest, sendCommentSuccess, resetCommentPostStatus
+  resetSearchGuitars, sendCommentError, sendCommentRequest, sendCommentSuccess, resetCommentPostStatus, resetProduct
 } from '../action';
 import { products } from './products';
 
@@ -145,6 +145,14 @@ describe('Reducer: products', () => {
       .toEqual({
         ...state,
         commentPostStatus: false,
+      });
+  });
+  it('should reset product data', () => {
+    expect(products(state, resetProduct()))
+      .toEqual({
+        ...state,
+        guitar: null,
+        guitarError: false,
       });
   });
 });

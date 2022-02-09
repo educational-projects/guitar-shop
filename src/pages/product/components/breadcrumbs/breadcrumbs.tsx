@@ -14,7 +14,7 @@ function Breadcrumbs(): JSX.Element {
         <Link className="link" to={APPRoute.Catalog}>Каталог</Link>
       </li>
       <li className="breadcrumbs__item">
-        <Link className="link" to={APPRoute.Product}>{guitar?.name}</Link>
+        {guitar?.name}
       </li>
     </ul>
   );
