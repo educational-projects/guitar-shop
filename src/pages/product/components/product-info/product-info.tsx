@@ -5,8 +5,9 @@ import cn from 'classnames';
 import Rating from '../../../../components/rating/rating';
 import { RatingClass } from '../../../../const';
 import { getGuitar } from '../../../../store/products/selectors';
-import { DEFAULT_TAB, GuitarTypeInRussian, TabType } from '../../const';
+import { DEFAULT_TAB, TabType } from '../../const';
 import Price from '../price/price';
+import Characteristic from './components/characteristic/characteristic';
 
 function ProductInfo(): JSX.Element | null {
   const guitar = useSelector(getGuitar);
@@ -23,13 +24,6 @@ function ProductInfo(): JSX.Element | null {
   const descriptionLinkClass = cn ('button button--medium tabs__button', {
     'button--black-border' : activeTab !== TabType.Description,
   });
-  const characteristicTableClass = cn ('tabs__table', {
-    'hidden' : activeTab !== TabType.Characteristic,
-  });
-  const descriptionTextClass = cn ('tabs__product-description', {
-    'hidden' : activeTab !== TabType.Description,
-  });
-
 
   if (!guitar) {
     return null;
@@ -44,6 +38,7 @@ function ProductInfo(): JSX.Element | null {
           rating={guitar.rating}
           className={RatingClass.Product}
           size={14}
+          count={guitar.comments.length}
         />
         <div className="tabs">
           <Link
@@ -59,23 +54,11 @@ function ProductInfo(): JSX.Element | null {
           >Описание
           </Link>
           <div className="tabs__content" id="characteristics">
-            <table className={characteristicTableClass}>
-              <tbody>
-                <tr className="tabs__table-row">
-                  <td className="tabs__title">Артикул:</td>
-                  <td className="tabs__value">{guitar.vendorCode}</td>
-                </tr>
-                <tr className="tabs__table-row">
-                  <td className="tabs__title">Тип:</td>
-                  <td className="tabs__value">{GuitarTypeInRussian[guitar.type]}</td>
-                </tr>
-                <tr className="tabs__table-row">
-                  <td className="tabs__title">Количество струн:</td>
-                  <td className="tabs__value">{`${guitar.stringCount} струнная`}</td>
-                </tr>
-              </tbody>
-            </table>
-            <p className={descriptionTextClass}>{guitar.description}</p>
+            {
+              activeTab === TabType.Characteristic
+                ? <Characteristic guitar={guitar}/>
+                : <p className="tabs__product-description">{guitar.description}</p>
+            }
           </div>
         </div>
       </div>
