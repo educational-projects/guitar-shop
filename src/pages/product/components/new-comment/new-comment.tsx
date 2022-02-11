@@ -77,7 +77,10 @@ function NewComment(): JSX.Element {
           </div>
           <div>
             <span className="form-review__label form-review__label--required">Ваша Оценка</span>
-            <div className="rate rate--reverse">
+            <div
+              className="rate rate--reverse"
+              dir='rtl'
+            >
               {Object.keys(RatingType).reverse().map((number) => (
                 <RatingStar
                   number={number}
