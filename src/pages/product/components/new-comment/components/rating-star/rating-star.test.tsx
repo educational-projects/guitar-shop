@@ -11,8 +11,6 @@ import RatingStar from './rating-star';
 const mockStore = configureMockStore([thunk]);
 const history = createMemoryHistory();
 const store = mockStore(makeFakeStore());
-
-const onStartChange = jest.fn();
 describe('Component: RatingStar', () => {
   it('should render correctly', () => {
     const fakeNumber = '5';
@@ -20,7 +18,7 @@ describe('Component: RatingStar', () => {
     render(
       <Provider store={store}>
         <Router history={history}>
-          <RatingStar number={fakeNumber} value={fakeNumber} onChange={onStartChange} />
+          <RatingStar number={fakeNumber} />
         </Router>
       </Provider>);
 

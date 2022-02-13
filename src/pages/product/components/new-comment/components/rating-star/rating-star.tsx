@@ -1,28 +1,25 @@
-import { ChangeEvent } from 'react';
+import { LegacyRef, forwardRef} from 'react';
 import { RatingType } from '../../../../const';
 
 type RatingStarProps = {
   number: string;
-  value: string;
-  onChange: (evt: ChangeEvent<HTMLInputElement>) => void;
 }
 
-function RatingStar({number, value, onChange}:RatingStarProps): JSX.Element {
+function RatingStar({number, ...props}:RatingStarProps, ref: LegacyRef<HTMLInputElement> | undefined): JSX.Element {
   return (
     <>
       <input
+        ref={ref}
         className="visually-hidden"
         type="radio"
         id={`star-${number}`}
-        name="rating"
         value={number}
-        onChange={onChange}
-        checked={number === value}
         data-testid={number}
+        {...props}
       />
       <label className="rate__label" htmlFor={`star-${number}`} title={RatingType[number]}></label>
     </>
   );
 }
 
-export default RatingStar;
+export default forwardRef(RatingStar);
