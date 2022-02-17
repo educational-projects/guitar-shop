@@ -1,4 +1,6 @@
+import { useDispatch } from 'react-redux';
 import { GuitarTypeInRussian } from '../../../../const';
+import { addProductCart } from '../../../../store/action';
 import { Guitar } from '../../../../types/guitar';
 import { getFormatPrice } from '../../../../utils/utils';
 
@@ -9,6 +11,7 @@ type AddToCartProps = {
 }
 
 function AddToCart({guitar, onClose, onAdd}: AddToCartProps): JSX.Element {
+  const dispatch = useDispatch();
   const priceFormatted = getFormatPrice(guitar.price.toString());
 
   return (
@@ -33,7 +36,10 @@ function AddToCart({guitar, onClose, onAdd}: AddToCartProps): JSX.Element {
       <div className="modal__button-container">
         <button
           className="button button--red button--big modal__button modal__button--add"
-          onClick={() => onAdd()}
+          onClick={() => {
+            onAdd();
+            dispatch(addProductCart(guitar));
+          }}
         >
            Добавить в корзину
         </button>

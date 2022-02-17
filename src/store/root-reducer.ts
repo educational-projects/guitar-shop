@@ -1,4 +1,5 @@
 import { combineReducers } from '@reduxjs/toolkit';
+import { cart } from './cart/cart';
 import { filter } from './filter/filter';
 import { modal } from './modal/modal';
 import { pagination } from './pagination/pagination';
@@ -8,7 +9,8 @@ export enum NameSpace {
   Filter = 'FILTER',
   Products = 'PRODUCTS',
   Pagination = 'PAGINATION',
-  Modal = 'MODAL'
+  Modal = 'MODAL',
+  Cart = 'CART'
 }
 
 export const rootReducer = combineReducers({
@@ -16,6 +18,7 @@ export const rootReducer = combineReducers({
   [NameSpace.Products]: products,
   [NameSpace.Pagination]: pagination,
   [NameSpace.Modal]: modal,
+  [NameSpace.Cart]: cart,
 
 });
 

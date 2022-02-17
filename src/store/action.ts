@@ -86,6 +86,15 @@ export const sendCommentSuccess = createAction(
   }),
 );
 
+export const addProductCart = createAction(
+  ActionType.AddProductCart,
+  (product: Guitar) => ({
+    payload: {
+      product,
+    },
+  }),
+);
+
 export const sendCommentError = createAction(ActionType.SendCommentError);
 
 export const resetCommentPostStatus = createAction(ActionType.ResetCommentPostStatus);

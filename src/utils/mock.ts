@@ -54,4 +54,7 @@ export const makeFakeStore = (): State => ({
   MODAL: {
     openModal: false,
   },
+  CART: {
+    currentProduct : [],
+  },
 });

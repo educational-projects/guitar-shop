@@ -1,9 +1,12 @@
 import { MouseEvent, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { APPRoute, RatingClass } from '../../const';
 import AddSuccess from '../../pages/catalog/components/add-success/add-success';
 import AddToCart from '../../pages/catalog/components/add-to-cart/add-to-cart';
+import { getCurrentProduct } from '../../store/cart/selectors';
 import { Guitar } from '../../types/guitar';
+import ButtonCart from '../button-cart/button-cart';
 import ModalWrapper from '../modal/components/modal-wrapper/modal-wrapper';
 import Modal from '../modal/modal';
 import Rating from '../rating/rating';
@@ -16,6 +19,9 @@ function Card({guitar}: CardProps): JSX.Element {
   const [modalOpen, setModalOpen] = useState(false);
   const [productAddStatus, setProductAddStatus] = useState(false);
   const {previewImg, name, price, id} = guitar;
+  const currentProduct = useSelector(getCurrentProduct);
+
+  const addedProductIndex = currentProduct.findIndex((product) => product.id === guitar.id);
 
   const handleButtonCartClick = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
@@ -43,12 +49,20 @@ function Card({guitar}: CardProps): JSX.Element {
         </div>
         <div className="product-card__buttons">
           <Link className="button button--mini" to={`${APPRoute.Product}/${id}`}>Подробнее</Link>
-          <Link
-            className="button button--red button--mini button--add-to-cart"
-            to='#'
-            onClick={handleButtonCartClick}
-          >Купить
-          </Link>
+          {
+            addedProductIndex > -1
+              ?
+              <ButtonCart/>
+              :
+              (
+                <Link
+                  className="button button--red button--mini button--add-to-cart"
+                  to='#'
+                  onClick={handleButtonCartClick}
+                >Купить
+                </Link>
+              )
+          }
         </div>
       </div>
       {modalOpen && !productAddStatus && (
@@ -68,7 +82,9 @@ function Card({guitar}: CardProps): JSX.Element {
             className='modal--success'
             onClose={() => setModalOpen(false)}
           >
-            <AddSuccess/>
+            <AddSuccess
+              onClose={() => setModalOpen(false)}
+            />
           </ModalWrapper>
         </Modal>
       )}

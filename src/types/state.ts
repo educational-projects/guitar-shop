@@ -29,4 +29,8 @@ export type ModalState = {
   openModal: boolean,
 }
 
+export type CartState = {
+  currentProduct: Guitars,
+}
+
 export type State = RootState
