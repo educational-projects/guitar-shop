@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
+import { getFormatPrice } from '../../../../utils/utils';
 import Price from './price';
-import { getFormatPrice } from '../../utils';
 
 describe('Component: Price', () => {
   it('should render correctly', () => {

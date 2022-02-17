@@ -1,4 +1,4 @@
-import { getFormatPrice } from '../../utils';
+import { getFormatPrice } from '../../../../utils/utils';
 
 type PriceProps = {
   price: number,

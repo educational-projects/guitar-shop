@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { APPRoute } from '../../const';
+import ShopCart from '../../pages/shop-cart/shop-cart';
 import Catalog from '../../pages/catalog/catalog';
 import Main from '../../pages/main/main';
 import NotFound from '../../pages/not-found/not-found';
@@ -18,6 +19,9 @@ function App(): JSX.Element {
         </Route>
         <Route exact path={`${APPRoute.Product}/:id`}>
           <Product/>
+        </Route>
+        <Route exact path={APPRoute.ShopCart}>
+          <ShopCart/>
         </Route>
         <Route>
           <NotFound/>

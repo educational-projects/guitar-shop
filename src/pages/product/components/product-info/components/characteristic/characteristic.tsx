@@ -1,5 +1,5 @@
+import { GuitarTypeInRussian } from '../../../../../../const';
 import { Guitar } from '../../../../../../types/guitar';
-import { GuitarTypeInRussian } from '../../../../const';
 
 type CharacteristicType = {
   guitar: Guitar

@@ -23,7 +23,8 @@ export enum ActionType {
   SendCommentSuccess = 'data/sendCommentSuccess',
   SendCommentError = 'data/sendCommentError',
   ResetCommentPostStatus = 'app/resetCommentPostStatus',
-  ResetProduct = 'app/resetProduct'
+  ResetProduct = 'app/resetProduct',
+  SetModalType = 'app/setModalType',
 }
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

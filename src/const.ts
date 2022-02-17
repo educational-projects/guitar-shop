@@ -3,7 +3,8 @@ export enum APPRoute {
   Product = '/product',
   Catalog = '/catalog',
   About = '/about',
-  Store = '/store'
+  Store = '/store',
+  ShopCart = '/shopcart'
 }
 
 export enum APIRoute {
@@ -21,6 +22,11 @@ export enum APIQuery {
   Search = 'name_like',
   Page = '_page',
   Limit = '_limit'
+}
+
+export enum PageTitle {
+  Catalog = 'Каталог гитар',
+  ShopCart = 'Корзина',
 }
 
 export const SortType = {
@@ -71,6 +77,12 @@ export const GuitarType = {
     name: 'ukulele',
     label: 'Укулеле',
   },
+} as const;
+
+export const GuitarTypeInRussian: {[key: string]: string} = {
+  acoustic : 'Акустическая гитара',
+  electric: 'Электрогитара',
+  ukulele: 'Укулеле',
 } as const;
 
 export const NumberOfStringType = {

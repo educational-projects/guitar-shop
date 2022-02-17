@@ -7,11 +7,13 @@ import Header from '../../components/header/header';
 import Pagination from '../../components/pagination/pagination';
 import Sorting from '../../components/sorting/sorting';
 import Title from '../../components/title/title';
+import { PageTitle } from '../../const';
 import { getGuitarsError } from '../../store/products/selectors';
 import FallbackError from '../fallback-error/fallback-error';
 
 function Catalog(): JSX.Element {
   const guitarsError = useSelector(getGuitarsError);
+
 
   if (guitarsError) {
     return <FallbackError/>;
@@ -22,7 +24,7 @@ function Catalog(): JSX.Element {
       <Header/>
       <main className="page-content">
         <div className="container">
-          <Title title='Каталог гитар'/>
+          <Title title={PageTitle.Catalog}/>
           <Breadcrumbs/>
           <div className="catalog">
             <Filter/>

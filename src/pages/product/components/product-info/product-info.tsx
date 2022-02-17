@@ -31,7 +31,7 @@ function ProductInfo(): JSX.Element | null {
 
   return (
     <div className="product-container">
-      <img className="product-container__img" src="../img/content/guitar-2.jpg" width="90" height="235" alt=""/>
+      <img className="product-container__img" src={`/${guitar.previewImg}`} width="90" height="235" alt=""/>
       <div className="product-container__info-wrapper">
         <h2 className="product-container__title title title--big title--uppercase">{guitar.name}</h2>
         <Rating

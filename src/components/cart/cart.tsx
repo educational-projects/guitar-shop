@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
+import { APPRoute } from '../../const';
 
 function Cart(): JSX.Element {
   return (
-    <Link className="header__cart-link" to='/' aria-label="Корзина">
+    <Link className="header__cart-link" to={APPRoute.ShopCart} aria-label="Корзина">
       <svg className="header__cart-icon" width="14" height="14" aria-hidden="true">
         <use xlinkHref="#icon-basket"></use>
       </svg>

@@ -75,6 +75,15 @@ export const setModalStatus = createAction(
   }),
 );
 
+export const setModalType = createAction(
+  ActionType.SetModalType,
+  (type: string) => ({
+    payload: {
+      type,
+    },
+  }),
+);
+
 export const sendCommentRequest = createAction(ActionType.SendCommentRequest);
 
 export const sendCommentSuccess = createAction(

@@ -7,8 +7,8 @@ type ModalWrapperType = {
   className?: string,
 }
 
-function ModalWrapper({children, onClose, className}: ModalWrapperType): JSX.Element {
-  const wrapperClass = `modal is-active modal-for-ui-kit ${className}`;
+function ModalWrapper({children, onClose, className=''}: ModalWrapperType): JSX.Element {
+  const wrapperClass = `modal is-active ${className}`;
 
   useEffect(() => {
     const handleEscKeyDown = (evt: KeyboardEvent) => {
