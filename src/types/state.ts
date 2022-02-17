@@ -27,7 +27,6 @@ export type FilterState = {
 
 export type ModalState = {
   openModal: boolean,
-  modalType: null | string,
 }
 
 export type State = RootState

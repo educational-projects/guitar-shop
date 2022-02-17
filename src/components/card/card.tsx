@@ -1,7 +1,7 @@
 import { MouseEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { APPRoute, RatingClass } from '../../const';
-import AddSuccess from '../../pages/catalog/components/add-success/add-sucess';
+import AddSuccess from '../../pages/catalog/components/add-success/add-success';
 import AddToCart from '../../pages/catalog/components/add-to-cart/add-to-cart';
 import { Guitar } from '../../types/guitar';
 import ModalWrapper from '../modal/components/modal-wrapper/modal-wrapper';
