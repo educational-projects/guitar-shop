@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import ModalWrapper from '../../../../components/modal/components/modal-wrapper/modal-wrapper';
 import Modal from '../../../../components/modal/modal';
@@ -13,6 +13,8 @@ type ProductProps = {
 }
 
 const PRODUCT_COUNT_STEP = 1;
+const MIN_PRODUCT_COUNT = 1;
+const MAX_PRODUCT_COUNT = 99;
 
 function Product({guitar}: ProductProps): JSX.Element {
   const dispatch = useDispatch();
@@ -27,8 +29,28 @@ function Product({guitar}: ProductProps): JSX.Element {
     }
     setProductCount((prevState) => prevState - PRODUCT_COUNT_STEP);
   };
+
   const handleButtonUpClick = () => {
     setProductCount((prevState) => prevState + PRODUCT_COUNT_STEP);
+  };
+
+  const handleInputBlur = ({target}: ChangeEvent<HTMLInputElement>) => {
+    const {value} = target;
+    if (Number(value) < MIN_PRODUCT_COUNT) {
+      setProductCount(MIN_PRODUCT_COUNT);
+      return;
+    }
+
+    if (Number(value) > MAX_PRODUCT_COUNT) {
+      setProductCount(MAX_PRODUCT_COUNT);
+      return;
+    }
+
+    setProductCount(Number(value));
+  };
+  const handleInputChange = ({target}: ChangeEvent<HTMLInputElement>) => {
+    const {value} = target;
+    setProductCount(Number(value));
   };
 
   return (
@@ -73,6 +95,8 @@ function Product({guitar}: ProductProps): JSX.Element {
             id="2-count"
             name="2-count"
             max="99"
+            onBlur={handleInputBlur}
+            onChange={handleInputChange}
             value={productCount}
           />
           <button
