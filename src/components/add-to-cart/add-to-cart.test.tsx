@@ -5,7 +5,7 @@ import {createMemoryHistory} from 'history';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {Provider} from 'react-redux';
 import AddToCart from './add-to-cart';
-import { makeFakeGuitar, makeFakeStore } from '../../../../utils/mock';
+import { makeFakeGuitar, makeFakeStore } from '../../utils/mock';
 import userEvent from '@testing-library/user-event';
 
 const mockStore = configureMockStore([thunk]);

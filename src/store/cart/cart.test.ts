@@ -1,5 +1,5 @@
 import { makeFakeGuitar } from '../../utils/mock';
-import { addProductCart } from '../action';
+import { addProductCart, removeProductCart } from '../action';
 import { cart } from './cart';
 
 const state = {
@@ -18,6 +18,14 @@ describe('Reducer: cart', () => {
       .toEqual({
         ...state,
         currentProduct: [fakeGuitar, ...state.currentProduct],
+      });
+  });
+  it('should delete the selected product to the storage, when calling', () => {
+    const fakeIndex = 1;
+    expect(cart(state, removeProductCart(fakeIndex)))
+      .toEqual({
+        ...state,
+        currentProduct: [],
       });
   });
 });

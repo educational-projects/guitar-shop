@@ -4,10 +4,10 @@ import thunk from 'redux-thunk';
 import {createMemoryHistory} from 'history';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {Provider} from 'react-redux';
-import { makeFakeStore } from '../../../../utils/mock';
+import { makeFakeStore } from '../../utils/mock';
 import AddSuccess from './add-success';
 import userEvent from '@testing-library/user-event';
-import { APPRoute } from '../../../../const';
+import { APPRoute } from '../../const';
 
 const mockStore = configureMockStore([thunk]);
 const history = createMemoryHistory();

@@ -1,8 +1,8 @@
 import { useDispatch } from 'react-redux';
-import { GuitarTypeInRussian } from '../../../../const';
-import { addProductCart } from '../../../../store/action';
-import { Guitar } from '../../../../types/guitar';
-import { getFormatPrice } from '../../../../utils/utils';
+import { GuitarTypeInRussian } from '../../const';
+import { addProductCart } from '../../store/action';
+import { Guitar } from '../../types/guitar';
+import { getFormatPrice } from '../../utils/utils';
 
 type AddToCartProps = {
   guitar: Guitar,

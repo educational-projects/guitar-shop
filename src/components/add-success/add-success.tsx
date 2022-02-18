@@ -1,6 +1,6 @@
-import { useHistory } from 'react-router-dom';
-import { APPRoute } from '../../../../const';
-import { getScrollPage } from '../../../../utils/utils';
+import { useHistory, useLocation } from 'react-router-dom';
+import { APPRoute } from '../../const';
+import { getScrollPage } from '../../utils/utils';
 
 type AddSuccessProps = {
   onClose: () => void,
@@ -8,6 +8,16 @@ type AddSuccessProps = {
 
 function AddSuccess({onClose}: AddSuccessProps): JSX.Element {
   const history = useHistory();
+  const location = useLocation();
+
+  const handleButtonClick = () => {
+    if (location.pathname !== APPRoute.Catalog) {
+      history.push(APPRoute.Catalog);
+      getScrollPage();
+    }
+    onClose();
+  };
+
   return (
     <>
       <svg className="modal__icon" width="26" height="20" aria-hidden="true">
@@ -26,7 +36,7 @@ function AddSuccess({onClose}: AddSuccessProps): JSX.Element {
         </button>
         <button
           className="button button--black-border button--small modal__button modal__button--right"
-          onClick={() => onClose()}
+          onClick={handleButtonClick}
         >
           Продолжить покупки
         </button>

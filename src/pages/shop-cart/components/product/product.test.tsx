@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import {createMemoryHistory} from 'history';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {Provider} from 'react-redux';
-import { makeFakeStore } from '../../../../utils/mock';
+import { makeFakeGuitar, makeFakeStore } from '../../../../utils/mock';
 import Product from './product';
 
 const mockStore = configureMockStore([thunk]);
@@ -13,14 +13,15 @@ const store = mockStore(makeFakeStore());
 
 describe('Component: Product', () => {
   it('should render correctly', () => {
+    const fakeGuitar = makeFakeGuitar();
     render(
       <Provider store={store}>
         <Router history={history}>
-          <Product/>
+          <Product guitar={fakeGuitar}/>
         </Router>
       </Provider>,
     );
 
-    expect(screen.getByText('Артикул: SO757575')).toBeInTheDocument();
+    expect(screen.getByText(fakeGuitar.name)).toBeInTheDocument();
   });
 });

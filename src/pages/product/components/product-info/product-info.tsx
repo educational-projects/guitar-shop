@@ -10,8 +10,8 @@ import Price from '../price/price';
 import Characteristic from './components/characteristic/characteristic';
 import ModalWrapper from '../../../../components/modal/components/modal-wrapper/modal-wrapper';
 import Modal from '../../../../components/modal/modal';
-import AddToCart from '../../../catalog/components/add-to-cart/add-to-cart';
-import AddSuccess from '../../../catalog/components/add-success/add-success';
+import AddToCart from '../../../../components/add-to-cart/add-to-cart';
+import AddSuccess from '../../../../components/add-success/add-success';
 
 function ProductInfo(): JSX.Element | null {
   const guitar = useSelector(getGuitar);

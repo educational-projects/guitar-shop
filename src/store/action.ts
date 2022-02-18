@@ -95,6 +95,15 @@ export const addProductCart = createAction(
   }),
 );
 
+export const removeProductCart = createAction(
+  ActionType.RemoveProductCart,
+  (id: number) => ({
+    payload: {
+      id,
+    },
+  }),
+);
+
 export const sendCommentError = createAction(ActionType.SendCommentError);
 
 export const resetCommentPostStatus = createAction(ActionType.ResetCommentPostStatus);
