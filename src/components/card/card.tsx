@@ -21,7 +21,7 @@ function Card({guitar}: CardProps): JSX.Element {
   const {previewImg, name, price, id} = guitar;
   const currentProduct = useSelector(getCurrentProduct);
 
-  const addedProductIndex = currentProduct.findIndex((product) => product.id === guitar.id);
+  const addedProductIndex = currentProduct.findIndex((product) => product.guitar.id === guitar.id);
 
   const handleButtonCartClick = (evt: MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();

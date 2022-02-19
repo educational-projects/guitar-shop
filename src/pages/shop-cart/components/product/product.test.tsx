@@ -14,14 +14,19 @@ const store = mockStore(makeFakeStore());
 describe('Component: Product', () => {
   it('should render correctly', () => {
     const fakeGuitar = makeFakeGuitar();
+    const fakeCount = 2;
     render(
       <Provider store={store}>
         <Router history={history}>
-          <Product guitar={fakeGuitar}/>
+          <Product
+            guitar={fakeGuitar}
+            count={fakeCount}
+          />
         </Router>
       </Provider>,
     );
 
     expect(screen.getByText(fakeGuitar.name)).toBeInTheDocument();
+    expect(screen.getByDisplayValue(fakeCount)).toBeInTheDocument();
   });
 });

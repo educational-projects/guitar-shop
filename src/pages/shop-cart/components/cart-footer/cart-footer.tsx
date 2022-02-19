@@ -1,4 +1,11 @@
+import { useSelector } from 'react-redux';
+import { getCurrentProduct } from '../../../../store/cart/selectors';
+import { getFormatPrice } from '../../../../utils/utils';
+
 function CartFooter(): JSX.Element {
+  const currentProduct = useSelector(getCurrentProduct);
+  const totalPrice = currentProduct.reduce((acc, product) => acc += product.guitar.price * product.count, 0);
+
   return (
     <div className="cart__footer">
       <div className="cart__coupon coupon">
@@ -16,7 +23,7 @@ function CartFooter(): JSX.Element {
       <div className="cart__total-info">
         <p className="cart__total-item">
           <span className="cart__total-value-name">Всего:</span>
-          <span className="cart__total-value">52 000 ₽</span>
+          <span className="cart__total-value">{getFormatPrice(totalPrice.toString())} ₽</span>
         </p>
         <p className="cart__total-item">
           <span className="cart__total-value-name">Скидка:</span>

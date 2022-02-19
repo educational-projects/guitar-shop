@@ -10,8 +10,9 @@ function ProductList(): JSX.Element {
     <div className="cart">
       {currentProduct.map((product) => (
         <Product
-          key={product.id}
-          guitar={product}
+          key={product.guitar.id}
+          guitar={product.guitar}
+          count={product.count}
         />
       ))}
       <CartFooter/>

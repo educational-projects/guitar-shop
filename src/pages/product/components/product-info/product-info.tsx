@@ -89,7 +89,10 @@ function ProductInfo(): JSX.Element | null {
         <Modal>
           <ModalWrapper
             className='modal--success'
-            onClose={() => setModalOpen(false)}
+            onClose={() => {
+              setModalOpen(false);
+              setProductAddStatus(false);
+            }}
           >
             <AddSuccess
               onClose={() => setModalOpen(false)}

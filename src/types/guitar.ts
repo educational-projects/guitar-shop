@@ -31,4 +31,11 @@ export type CommentPost = {
   rating: number,
 }
 
+export type GuitarCart = {
+  guitar: Guitar,
+  count: number,
+}
+
+export type GuitarsCart = GuitarCart[]
+
 export type Guitars = Guitar[]

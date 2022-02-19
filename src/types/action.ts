@@ -26,6 +26,7 @@ export enum ActionType {
   ResetProduct = 'app/resetProduct',
   AddProductCart = 'user/addProductCart',
   RemoveProductCart = 'user/removeProductCart',
+  SetGuitarCount = 'user/setGuitarCount',
 }
 
 export type ThunkActionResult<R = Promise<void>> = ThunkAction<R, State, AxiosInstance, Action>;

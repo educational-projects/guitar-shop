@@ -5,6 +5,7 @@ import { getCurrentProduct } from '../../store/cart/selectors';
 
 function Cart(): JSX.Element {
   const currentProduct = useSelector(getCurrentProduct);
+  const totalProduct = currentProduct.reduce((acc, product) => acc += product.count , 0);
 
   return (
     <Link className="header__cart-link" to={APPRoute.ShopCart} aria-label="Корзина">
@@ -14,9 +15,9 @@ function Cart(): JSX.Element {
       <span className="visually-hidden">
               Перейти в корзину
       </span>
-      {currentProduct.length > 0 && (
+      {totalProduct > 0 && (
         <span className="header__cart-count">
-          {currentProduct.length}
+          {totalProduct}
         </span>
       )}
     </Link>

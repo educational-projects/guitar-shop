@@ -17,7 +17,7 @@ describe('Reducer: cart', () => {
     expect(cart(state, addProductCart(fakeGuitar)))
       .toEqual({
         ...state,
-        currentProduct: [fakeGuitar, ...state.currentProduct],
+        currentProduct: [{guitar: fakeGuitar, count: 1}, ...state.currentProduct],
       });
   });
   it('should delete the selected product to the storage, when calling', () => {

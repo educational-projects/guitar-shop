@@ -1,5 +1,5 @@
 import { RootState } from '../store/root-reducer';
-import { Guitar, Guitars } from './guitar';
+import { Guitar, Guitars, GuitarsCart } from './guitar';
 
 export type ProductsState = {
   guitarsLoading: boolean,
@@ -30,7 +30,7 @@ export type ModalState = {
 }
 
 export type CartState = {
-  currentProduct: Guitars,
+  currentProduct: GuitarsCart,
 }
 
 export type State = RootState

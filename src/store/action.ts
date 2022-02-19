@@ -95,6 +95,16 @@ export const addProductCart = createAction(
   }),
 );
 
+export const setGuitarCount = createAction(
+  ActionType.SetGuitarCount,
+  (guitar: Guitar, count: number) => ({
+    payload: {
+      guitar,
+      count,
+    },
+  }),
+);
+
 export const removeProductCart = createAction(
   ActionType.RemoveProductCart,
   (id: number) => ({
