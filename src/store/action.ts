@@ -119,3 +119,16 @@ export const sendCommentError = createAction(ActionType.SendCommentError);
 export const resetCommentPostStatus = createAction(ActionType.ResetCommentPostStatus);
 
 export const resetProduct = createAction(ActionType.ResetProduct);
+
+export const sendCouponRequest = createAction(ActionType.SendCouponRequest);
+
+export const sendCouponSuccess = createAction(
+  ActionType.SendCouponSuccess,
+  (discount: string) => ({
+    payload: {
+      discount,
+    },
+  }),
+);
+
+export const sendCouponError = createAction(ActionType.SendCouponError);

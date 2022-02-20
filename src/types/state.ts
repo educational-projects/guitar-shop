@@ -31,6 +31,7 @@ export type ModalState = {
 
 export type CartState = {
   currentProduct: GuitarsCart,
+  discount: null | string,
 }
 
 export type State = RootState

@@ -56,5 +56,6 @@ export const makeFakeStore = (): State => ({
   },
   CART: {
     currentProduct : [],
+    discount: null,
   },
 });

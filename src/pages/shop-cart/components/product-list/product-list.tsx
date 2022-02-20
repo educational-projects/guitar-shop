@@ -8,13 +8,16 @@ function ProductList(): JSX.Element {
 
   return (
     <div className="cart">
-      {currentProduct.map((product) => (
-        <Product
-          key={product.guitar.id}
-          guitar={product.guitar}
-          count={product.count}
-        />
-      ))}
+      {currentProduct.length > 0 ?
+        currentProduct.map((product) => (
+          <Product
+            key={product.guitar.id}
+            guitar={product.guitar}
+            count={product.count}
+          />
+        ))
+        :
+        <p>Корзина пустая</p>}
       <CartFooter/>
     </div>
   );

@@ -20,49 +20,43 @@ const MAX_PRODUCT_COUNT = 99;
 function Product({guitar, count}: ProductProps): JSX.Element {
   const dispatch = useDispatch();
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [productCount, setProductCount] = useState<number>(count);
   const totalItemPrice = guitar.price * count;
 
   const handleButtonDownClick = () => {
-    if (productCount === 1) {
+    if (count === 1) {
       setOpenModal(true);
       return;
     }
-    const value = productCount - PRODUCT_COUNT_STEP;
-    setProductCount((prevState) => prevState - PRODUCT_COUNT_STEP);
+    const value = count - PRODUCT_COUNT_STEP;
     dispatch(setGuitarCount(guitar, value));
   };
 
   const handleButtonUpClick = () => {
-    if (productCount === MAX_PRODUCT_COUNT) {
+    if (count === MAX_PRODUCT_COUNT) {
       return;
     }
-    const value = productCount + PRODUCT_COUNT_STEP;
-    setProductCount((prevState) => prevState + PRODUCT_COUNT_STEP);
+    const value = count + PRODUCT_COUNT_STEP;
     dispatch(setGuitarCount(guitar, value));
   };
 
   const handleInputBlur = ({target}: ChangeEvent<HTMLInputElement>) => {
     const {value} = target;
     if (Number(value) < MIN_PRODUCT_COUNT) {
-      setProductCount(MIN_PRODUCT_COUNT);
       dispatch(setGuitarCount(guitar, Number(MIN_PRODUCT_COUNT)));
       return;
     }
 
     if (Number(value) > MAX_PRODUCT_COUNT) {
-      setProductCount(MAX_PRODUCT_COUNT);
       dispatch(setGuitarCount(guitar, Number(MAX_PRODUCT_COUNT)));
       return;
     }
 
-    setProductCount(Number(value));
     dispatch(setGuitarCount(guitar, Number(value)));
   };
 
   const handleInputChange = ({target}: ChangeEvent<HTMLInputElement>) => {
     const {value} = target;
-    setProductCount(Number(value));
+    dispatch(setGuitarCount(guitar, Number(value)));
   };
 
   return (
@@ -109,7 +103,7 @@ function Product({guitar, count}: ProductProps): JSX.Element {
             max="99"
             onBlur={handleInputBlur}
             onChange={handleInputChange}
-            value={productCount}
+            value={count}
           />
           <button
             className="quantity__button"

@@ -6,8 +6,8 @@ import { State } from '../types/state';
 import { Action } from 'redux';
 import { APIRoute } from '../const';
 import { makeFakeComment, makeFakeGuitar } from '../utils/mock';
-import { fetchGuitarsAction, fetchPlaceholdersPriceAction, sendCommentsAction } from './api-action';
-import { loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadPlaceholdersPriceSuccess, loadPlaceholdersPriceRequest, loadPlaceholdersPriceError, sendCommentRequest, sendCommentSuccess } from './action';
+import { fetchGuitarsAction, fetchPlaceholdersPriceAction, sendCommentsAction, sendCouponAction } from './api-action';
+import { loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadPlaceholdersPriceSuccess, loadPlaceholdersPriceRequest, loadPlaceholdersPriceError, sendCommentRequest, sendCommentSuccess, sendCouponRequest, sendCouponSuccess } from './action';
 import { CommentPost } from '../types/guitar';
 
 describe('Async offers data actions', () => {
@@ -114,6 +114,23 @@ describe('Async offers data actions', () => {
     expect(store.getActions()).toEqual([
       sendCommentRequest(),
       sendCommentSuccess(comment),
+    ]);
+  });
+  it('should return discount when server return 200', async () => {
+    const store = mockStore();
+    const fakeCoupon = 'light-333';
+
+    mockAPI
+      .onPost(APIRoute.Coupon)
+      .reply(200, fakeCoupon);
+
+    expect(store.getActions()).toEqual([]);
+
+    await store.dispatch(sendCouponAction(fakeCoupon));
+
+    expect(store.getActions()).toEqual([
+      sendCouponRequest(),
+      sendCouponSuccess(fakeCoupon),
     ]);
   });
 });

@@ -1,9 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { CartState } from '../../types/state';
-import { addProductCart, removeProductCart, setGuitarCount } from '../action';
+import { addProductCart, removeProductCart, sendCouponError, sendCouponSuccess, setGuitarCount } from '../action';
 
 const initialState: CartState = {
   currentProduct: [],
+  discount: null,
 };
 
 const cart = createReducer(initialState, (builder) => {
@@ -25,10 +26,15 @@ const cart = createReducer(initialState, (builder) => {
     })
     .addCase(removeProductCart, (state, action) => {
       const {id} = action.payload;
-      const index = state.currentProduct.findIndex((product) => product.guitar.id === id);
-      if (index !== -1) {
-        state.currentProduct.splice(index, 1);
-      }
+      const newState = state.currentProduct.filter(({guitar}) => guitar.id !== id);
+      state.currentProduct = newState;
+    })
+    .addCase(sendCouponSuccess, (state, action) => {
+      const {discount} = action.payload;
+      state.discount = discount;
+    })
+    .addCase(sendCouponError, (state) => {
+      state.discount = null;
     });
 });
 

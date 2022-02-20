@@ -1,9 +1,10 @@
 import { makeFakeGuitar } from '../../utils/mock';
-import { addProductCart, removeProductCart } from '../action';
+import { addProductCart, removeProductCart, sendCouponError, sendCouponSuccess } from '../action';
 import { cart } from './cart';
 
 const state = {
   currentProduct: [],
+  discount: null,
 };
 
 describe('Reducer: cart', () => {
@@ -26,6 +27,21 @@ describe('Reducer: cart', () => {
       .toEqual({
         ...state,
         currentProduct: [],
+      });
+  });
+  it('should set a discount after receiving a response', () => {
+    const fakeDiscount = '35';
+    expect(cart(state, sendCouponSuccess(fakeDiscount)))
+      .toEqual({
+        ...state,
+        discount: fakeDiscount,
+      });
+  });
+  it('should remove the discount, having received a refusal', () => {
+    expect(cart(state, sendCouponError()))
+      .toEqual({
+        ...state,
+        discount: null,
       });
   });
 });

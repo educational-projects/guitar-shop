@@ -7,7 +7,7 @@ import {
   loadGuitarRequest,
   loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadGuitarSuccess, loadPlaceholdersPriceError,
   loadPlaceholdersPriceRequest, loadPlaceholdersPriceSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest,
-  loadSearchGuitarsSuccess, sendCommentError, sendCommentRequest, sendCommentSuccess
+  loadSearchGuitarsSuccess, sendCommentError, sendCommentRequest, sendCommentSuccess, sendCouponError, sendCouponRequest, sendCouponSuccess
 } from './action';
 
 export const fetchGuitarsAction = (query = {}): ThunkActionResult => (
@@ -70,6 +70,18 @@ export const sendCommentsAction = (userComment: CommentPost): ThunkActionResult 
     } catch {
       dispatch(sendCommentError());
       toast.error(FailMessage.PostComment);
+    }
+  }
+);
+
+export const sendCouponAction = (coupon: string): ThunkActionResult => (
+  async (dispatch, _getState, api) => {
+    dispatch(sendCouponRequest());
+    try {
+      const {data} = await api.post<string>(APIRoute.Coupon, {coupon: coupon});
+      dispatch(sendCouponSuccess(data));
+    } catch {
+      dispatch(sendCouponError());
     }
   }
 );
