@@ -119,6 +119,7 @@ describe('Async offers data actions', () => {
   it('should return discount when server return 200', async () => {
     const store = mockStore();
     const fakeCoupon = 'light-333';
+    const fakeCallback = jest.fn();
 
     mockAPI
       .onPost(APIRoute.Coupon)
@@ -126,7 +127,7 @@ describe('Async offers data actions', () => {
 
     expect(store.getActions()).toEqual([]);
 
-    await store.dispatch(sendCouponAction(fakeCoupon));
+    await store.dispatch(sendCouponAction(fakeCoupon, fakeCallback));
 
     expect(store.getActions()).toEqual([
       sendCouponRequest(),

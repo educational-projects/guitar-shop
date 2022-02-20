@@ -74,14 +74,16 @@ export const sendCommentsAction = (userComment: CommentPost): ThunkActionResult 
   }
 );
 
-export const sendCouponAction = (coupon: string): ThunkActionResult => (
+export const sendCouponAction = (coupon: string, callback: () => void): ThunkActionResult => (
   async (dispatch, _getState, api) => {
     dispatch(sendCouponRequest());
     try {
       const {data} = await api.post<string>(APIRoute.Coupon, {coupon: coupon});
       dispatch(sendCouponSuccess(data));
+      callback();
     } catch {
       dispatch(sendCouponError());
+      callback();
     }
   }
 );

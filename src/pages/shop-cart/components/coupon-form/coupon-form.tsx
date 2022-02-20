@@ -1,21 +1,42 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { sendCouponAction } from '../../../../store/api-action';
 import { getConcatString } from '../../utils';
+import cn from 'classnames';
+import { getDiscount } from '../../../../store/cart/selectors';
 
 function CouponForm(): JSX.Element {
   const dispatch = useDispatch();
+  const discount = useSelector(getDiscount);
   const [formState, setFormState] = useState('');
+  const [couponSent, setCouponSent] = useState(false);
+
+  const setCouponStatus = () => {
+    setCouponSent(true);
+  };
 
   const handleSubmitForm = (evt: FormEvent) => {
     evt.preventDefault();
-    dispatch(sendCouponAction(formState));
+    dispatch(sendCouponAction(formState, setCouponStatus));
   };
 
   const handleChangeForm = ({target} :ChangeEvent<HTMLInputElement>) => {
     const {value} = target;
     setFormState(getConcatString(value));
   };
+
+  const handleBlurForm = () => {
+    if (!formState && !discount) {
+      setCouponSent(false);
+    }
+  };
+
+  const promoClass = cn ('form-input__message', {
+    'form-input__message--success' : discount ,
+    'form-input__message--error' : !discount ,
+  });
+
+  const promoText = discount ? 'Промокод принят' : 'неверный промокод';
 
   return (
     <div className="cart__coupon coupon">
@@ -35,10 +56,13 @@ function CouponForm(): JSX.Element {
             placeholder="Введите промокод"
             id="coupon"
             name="coupon"
+            onBlur={handleBlurForm}
             onChange={handleChangeForm}
             value={formState}
           />
-          <p className="form-input__message form-input__message--success">Промокод принят</p>
+          {couponSent && (
+            <p className={promoClass}>{promoText}</p>
+          )}
         </div>
         <button className="button button--big coupon__button">Применить</button>
       </form>
