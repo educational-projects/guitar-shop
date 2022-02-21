@@ -38,7 +38,10 @@ describe('Component: AddSuccess', () => {
       </Provider>,
     );
 
-    const closeButton = screen.getByText('Продолжить покупки');
+    const buttonContinueShopping = screen.getByText('Продолжить покупки');
+    const closeButton = screen.getByLabelText('Закрыть');
+    userEvent.click(buttonContinueShopping);
+    expect(onClose).toBeCalled();
     userEvent.click(closeButton);
     expect(onClose).toBeCalled();
   });

@@ -1,6 +1,7 @@
 import {render, screen} from '@testing-library/react';
 import {Router} from 'react-router-dom';
 import thunk from 'redux-thunk';
+import * as Redux from 'react-redux';
 import {createMemoryHistory} from 'history';
 import {configureMockStore} from '@jedmao/redux-mock-store';
 import {Provider} from 'react-redux';
@@ -51,5 +52,27 @@ describe('Component: AddToCart', () => {
     const closeButton = screen.getByLabelText('Закрыть');
     userEvent.click(closeButton);
     expect(onClose).toBeCalled();
+  });
+  it('should add the product to the cart by clicking on the button', () => {
+    const fakeGuitar = makeFakeGuitar();
+    const dispatch = jest.fn();
+    const useDispatch = jest.spyOn(Redux, 'useDispatch');
+    useDispatch.mockReturnValue(dispatch);
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <AddToCart
+            guitar={fakeGuitar}
+            onClose={onClose}
+            onAdd={onAdd}
+          />
+        </Router>
+      </Provider>,
+    );
+
+    const addButton = screen.getByText('Добавить в корзину');
+    userEvent.click(addButton);
+    expect(onAdd).toBeCalled();
+    expect(dispatch).toBeCalled();
   });
 });

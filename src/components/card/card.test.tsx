@@ -6,6 +6,7 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 import {Provider} from 'react-redux';
 import { makeFakeGuitar, makeFakeStore } from '../../utils/mock';
 import Card from './card';
+import userEvent from '@testing-library/user-event';
 
 const mockStore = configureMockStore([thunk]);
 const history = createMemoryHistory();
@@ -24,5 +25,22 @@ describe('Component: Card', () => {
 
     expect(screen.getByText('Купить')).toBeInTheDocument();
     expect(screen.getByText('Подробнее')).toBeInTheDocument();
+  });
+  it('should modal window is expected to open after clicking', () => {
+    const handleButtonCartClick = jest.fn();
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <Card guitar={card}/>
+        </Router>
+      </Provider>,
+    );
+
+    const buttonBuy = screen.getByText('Купить');
+    buttonBuy.onclick = handleButtonCartClick;
+    expect(buttonBuy).toBeInTheDocument();
+    userEvent.click(buttonBuy);
+    expect(handleButtonCartClick).toBeCalled();
+    expect(screen.getByText('Добавить товар в корзину')).toBeInTheDocument();
   });
 });

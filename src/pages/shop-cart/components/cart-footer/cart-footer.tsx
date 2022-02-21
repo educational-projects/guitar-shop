@@ -15,7 +15,6 @@ function CartFooter(): JSX.Element {
     'cart__total-value--bonus' : discountReceived > 0,
   });
 
-
   return (
     <div className="cart__footer">
       <CouponForm/>

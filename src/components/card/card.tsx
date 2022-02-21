@@ -30,7 +30,7 @@ function Card({guitar}: CardProps): JSX.Element {
 
   return (
     <>
-      <div className="product-card">
+      <div className="product-card" data-testid="cart-item">
         <img src={`/${previewImg}`} width="75" height="190" alt={name} />
         <div className="product-card__info">
           <Rating

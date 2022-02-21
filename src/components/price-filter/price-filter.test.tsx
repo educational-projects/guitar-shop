@@ -6,6 +6,7 @@ import {configureMockStore} from '@jedmao/redux-mock-store';
 import {Provider} from 'react-redux';
 import { makeFakeStore } from '../../utils/mock';
 import PriceFilter from './price-filter';
+import userEvent from '@testing-library/user-event';
 
 const mockStore = configureMockStore([thunk]);
 const history = createMemoryHistory();
@@ -23,5 +24,23 @@ describe('Component: PriceFilter', () => {
 
     expect(screen.getByTestId('minPrice')).toBeInTheDocument();
     expect(screen.getByTestId('maxPrice')).toBeInTheDocument();
+  });
+  it('should expected to change the state after entering in the field', () => {
+    const fakeFn = jest.fn();
+    const fakePrice = '1000';
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <PriceFilter/>
+        </Router>
+      </Provider>,
+    );
+
+    const minPriceInput = screen.getByTestId('minPrice');
+    minPriceInput.onchange = fakeFn();
+    expect(minPriceInput).toBeInTheDocument();
+    userEvent.type(minPriceInput, fakePrice);
+    expect(fakeFn).toBeCalled();
+    expect(minPriceInput).toHaveDisplayValue(fakePrice);
   });
 });
