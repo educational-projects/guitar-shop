@@ -1,6 +1,5 @@
 import { ChangeEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import ModalWrapper from '../../../../components/modal/components/modal-wrapper/modal-wrapper';
 import Modal from '../../../../components/modal/modal';
 import { GuitarTypeInRussian } from '../../../../const';
 import { setGuitarCount } from '../../../../store/action';
@@ -118,13 +117,11 @@ function Product({guitar, count}: ProductProps): JSX.Element {
         <div className="cart-item__price-total">{getFormatPrice(totalItemPrice.toString())} ₽</div>
       </div>
       {openModal && (
-        <Modal>
-          <ModalWrapper onClose={() => setOpenModal(false)}>
-            <DeleteProduct
-              guitar={guitar}
-              onClose={() => setOpenModal(false)}
-            />
-          </ModalWrapper>
+        <Modal onClose={() => setOpenModal(false)}>
+          <DeleteProduct
+            guitar={guitar}
+            onClose={() => setOpenModal(false)}
+          />
         </Modal>
       )}
     </>

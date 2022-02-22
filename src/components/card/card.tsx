@@ -7,7 +7,6 @@ import AddToCart from '../add-to-cart/add-to-cart';
 import { getCurrentProduct } from '../../store/cart/selectors';
 import { Guitar } from '../../types/guitar';
 import ButtonCart from '../button-cart/button-cart';
-import ModalWrapper from '../modal/components/modal-wrapper/modal-wrapper';
 import Modal from '../modal/modal';
 import Rating from '../rating/rating';
 
@@ -66,26 +65,22 @@ function Card({guitar}: CardProps): JSX.Element {
         </div>
       </div>
       {modalOpen && !productAddStatus && (
-        <Modal>
-          <ModalWrapper onClose={() => setModalOpen(false)}>
-            <AddToCart
-              guitar={guitar}
-              onClose={() => setModalOpen(false)}
-              onAdd={() => setProductAddStatus(true)}
-            />
-          </ModalWrapper>
+        <Modal onClose={() => setModalOpen(false)}>
+          <AddToCart
+            guitar={guitar}
+            onClose={() => setModalOpen(false)}
+            onAdd={() => setProductAddStatus(true)}
+          />
         </Modal>
       )}
       {modalOpen && productAddStatus && (
-        <Modal>
-          <ModalWrapper
-            className='modal--success'
+        <Modal
+          onClose={() => setModalOpen(false)}
+          className='modal--success'
+        >
+          <AddSuccess
             onClose={() => setModalOpen(false)}
-          >
-            <AddSuccess
-              onClose={() => setModalOpen(false)}
-            />
-          </ModalWrapper>
+          />
         </Modal>
       )}
     </>

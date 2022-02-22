@@ -8,7 +8,6 @@ import { getGuitar } from '../../../../store/products/selectors';
 import { DEFAULT_TAB, TabType } from '../../const';
 import Price from '../price/price';
 import Characteristic from './components/characteristic/characteristic';
-import ModalWrapper from '../../../../components/modal/components/modal-wrapper/modal-wrapper';
 import Modal from '../../../../components/modal/modal';
 import AddToCart from '../../../../components/add-to-cart/add-to-cart';
 import AddSuccess from '../../../../components/add-success/add-success';
@@ -75,29 +74,25 @@ function ProductInfo(): JSX.Element | null {
         />
       </div>
       {modalOpen && !productAddStatus && (
-        <Modal>
-          <ModalWrapper onClose={() => setModalOpen(false)}>
-            <AddToCart
-              guitar={guitar}
-              onClose={() => setModalOpen(false)}
-              onAdd={() => setProductAddStatus(true)}
-            />
-          </ModalWrapper>
+        <Modal onClose={() => setModalOpen(false)}>
+          <AddToCart
+            guitar={guitar}
+            onClose={() => setModalOpen(false)}
+            onAdd={() => setProductAddStatus(true)}
+          />
         </Modal>
       )}
       {modalOpen && productAddStatus && (
-        <Modal>
-          <ModalWrapper
-            className='modal--success'
-            onClose={() => {
-              setModalOpen(false);
-              setProductAddStatus(false);
-            }}
-          >
-            <AddSuccess
-              onClose={() => setModalOpen(false)}
-            />
-          </ModalWrapper>
+        <Modal
+          onClose={() => {
+            setModalOpen(false);
+            setProductAddStatus(false);
+          }}
+          className='modal--success'
+        >
+          <AddSuccess
+            onClose={() => setModalOpen(false)}
+          />
         </Modal>
       )}
     </>
