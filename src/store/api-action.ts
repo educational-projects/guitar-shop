@@ -1,5 +1,5 @@
 import { toast } from 'react-toastify';
-import { APIRoute, FailMessage } from '../const';
+import { APIRoute, FailMessage, HttpCode } from '../const';
 import { ThunkActionResult } from '../types/action';
 import { Comment, CommentPost, Guitar, Guitars } from '../types/guitar';
 import {
@@ -81,9 +81,16 @@ export const sendCouponAction = (coupon: string, callback: () => void): ThunkAct
       const {data} = await api.post<string>(APIRoute.Coupon, {coupon: coupon});
       dispatch(sendCouponSuccess(data));
       callback();
-    } catch {
-      dispatch(sendCouponError());
-      callback();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch(e: any) {
+      if (e.message === 'Network Error') {
+        toast.error(FailMessage.PostCoupon);
+        return;
+      }
+      if (e.response.status === HttpCode.BadRequest) {
+        dispatch(sendCouponError());
+        callback();
+      }
     }
   }
 );

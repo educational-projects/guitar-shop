@@ -25,6 +25,10 @@ export enum APIQuery {
   Limit = '_limit'
 }
 
+export enum HttpCode {
+  BadRequest = 400,
+}
+
 export enum PageTitle {
   Catalog = 'Каталог гитар',
   ShopCart = 'Корзина',
@@ -113,6 +117,7 @@ export const KeyCode = {
 
 export const FailMessage = {
   PostComment: 'не удалось отправить комментарий',
+  PostCoupon: 'не удалось отправить купон, проверьте соединение с интернетом',
 } as const;
 
 export const ModalClass = {
