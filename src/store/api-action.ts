@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react';
 import { toast } from 'react-toastify';
 import { APIRoute, FailMessage, HttpCode } from '../const';
 import { ThunkActionResult } from '../types/action';
@@ -7,7 +8,8 @@ import {
   loadGuitarRequest,
   loadGuitarsError, loadGuitarsRequest, loadGuitarsSuccess, loadGuitarSuccess, loadPlaceholdersPriceError,
   loadPlaceholdersPriceRequest, loadPlaceholdersPriceSuccess, loadSearchGuitarsError, loadSearchGuitarsRequest,
-  loadSearchGuitarsSuccess, sendCommentError, sendCommentRequest, sendCommentSuccess, sendCouponError, sendCouponRequest, sendCouponSuccess
+  loadSearchGuitarsSuccess, sendCommentError, sendCommentRequest, sendCommentSuccess, sendCouponError,
+  sendCouponRequest, sendCouponSuccess
 } from './action';
 
 export const fetchGuitarsAction = (query = {}): ThunkActionResult => (
@@ -74,22 +76,23 @@ export const sendCommentsAction = (userComment: CommentPost): ThunkActionResult 
   }
 );
 
-export const sendCouponAction = (coupon: string, callback: () => void): ThunkActionResult => (
+export const sendCouponAction = (coupon: string, callback: Dispatch<SetStateAction<boolean>>): ThunkActionResult => (
   async (dispatch, _getState, api) => {
     dispatch(sendCouponRequest());
     try {
       const {data} = await api.post<string>(APIRoute.Coupon, {coupon: coupon});
       dispatch(sendCouponSuccess(data));
-      callback();
+      callback(true);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch(e: any) {
       if (e.message === 'Network Error') {
         toast.error(FailMessage.PostCoupon);
+        callback(false);
         return;
       }
       if (e.response.status === HttpCode.BadRequest) {
         dispatch(sendCouponError());
-        callback();
+        callback(true);
       }
     }
   }

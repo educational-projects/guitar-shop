@@ -11,13 +11,9 @@ function CouponForm(): JSX.Element {
   const [formState, setFormState] = useState('');
   const [couponSent, setCouponSent] = useState(false);
 
-  const setCouponStatus = () => {
-    setCouponSent(true);
-  };
-
   const handleSubmitForm = (evt: FormEvent) => {
     evt.preventDefault();
-    dispatch(sendCouponAction(formState, setCouponStatus));
+    dispatch(sendCouponAction(formState, setCouponSent));
   };
 
   const handleChangeForm = ({target} :ChangeEvent<HTMLInputElement>) => {
